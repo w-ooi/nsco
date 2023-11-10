@@ -11,7 +11,6 @@ public class Lesson {
 	}
 
 	public Lesson(int lessonCode, String lessonName, String description, LessonCategory lessonCategory) {
-		super();
 		this.lessonCode = lessonCode;
 		this.lessonName = lessonName;
 		this.description = description;

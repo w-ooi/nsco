@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import beans.Instructor;
 import beans.Lesson;
 import beans.Schedule;
-import beans.Staff;
 import beans.TimeFrame;
 
 public class ScheduleDAO {
@@ -32,7 +32,7 @@ public class ScheduleDAO {
 
 			LessonDAO lessonDao = new LessonDAO(con);
 			TimeFrameDAO timeFrameDao = new TimeFrameDAO(con);
-			StaffDAO staffDao = new StaffDAO(con);
+			InstructorDAO instructorDao = new InstructorDAO(con);
 
 			// 結果を参照
 			if (rs.next()) {
@@ -41,13 +41,13 @@ public class ScheduleDAO {
 				String eventDate = rs.getDate("event_date").toString();
 				int timeFrameCode = rs.getInt("time_frame_code");
 				TimeFrame timeFrame = timeFrameDao.getTimeFrame(timeFrameCode);
-				int staffCode = rs.getInt("staff_code");
-				Staff staff = staffDao.getStaff(staffCode);
+				int instructorCode = rs.getInt("instructor_code");
+				Instructor instructor = instructorDao.getInstructor(instructorCode);
 				String streamingId = rs.getString("streaming_id");
 				String streamingPass = rs.getString("streaming_pass");
 				int cancelFlag = rs.getInt("cancel_flag");
 
-				schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,staff,streamingId,streamingPass,cancelFlag);
+				schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,instructor,streamingId,streamingPass,cancelFlag);
 			}
 		} finally {
 			// リソースの解放
@@ -73,7 +73,7 @@ public class ScheduleDAO {
 
 			LessonDAO lessonDao = new LessonDAO(con);
 			TimeFrameDAO timeFrameDao = new TimeFrameDAO(con);
-			StaffDAO staffDao = new StaffDAO(con);
+			InstructorDAO instructorDao = new InstructorDAO(con);
 
 			// 結果を参照
 			while (rs.next()) {
@@ -83,13 +83,13 @@ public class ScheduleDAO {
 				String eventDate = rs.getDate("event_date").toString();
 				int timeFrameCode = rs.getInt("time_frame_code");
 				TimeFrame timeFrame = timeFrameDao.getTimeFrame(timeFrameCode);
-				int staffCode = rs.getInt("staff_code");
-				Staff staff = staffDao.getStaff(staffCode);
+				int instructorCode = rs.getInt("instructor_code");
+				Instructor instructor = instructorDao.getInstructor(instructorCode);
 				String streamingId = rs.getString("streaming_id");
 				String streamingPass = rs.getString("streaming_pass");
 				int cancelFlag = rs.getInt("cancel_flag");
 
-				Schedule schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,staff,streamingId,streamingPass,cancelFlag);
+				Schedule schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,instructor,streamingId,streamingPass,cancelFlag);
 
 				list.add(schedule);
 			}

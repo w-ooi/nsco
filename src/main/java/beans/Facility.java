@@ -9,7 +9,6 @@ public class Facility {
 	}
 
 	public Facility(int facilityCode, String facilityName) {
-		super();
 		this.facilityCode = facilityCode;
 		this.facilityName = facilityName;
 	}

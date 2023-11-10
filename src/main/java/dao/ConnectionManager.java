@@ -13,7 +13,7 @@ public class ConnectionManager {
 
             // データベースへ接続
             con = DriverManager.getConnection(
-            		"jdbc:mysql://localhost/javatest", "duke", "system5");
+            		"jdbc:mysql://localhost/nscdb", "duke", "system5");
 		}catch(ClassNotFoundException e) {
 			System.err.println("JDBCドライバのロードに失敗");
 		}catch(SQLException e) {

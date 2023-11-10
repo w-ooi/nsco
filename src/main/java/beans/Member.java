@@ -19,7 +19,6 @@ public class Member {
 
 	public Member(String memberNo, String nameSei, String nameMei, String kanaSei, String kanaMei, String email,
 			String nickname, String password, Creca creca, String crecaNo, String creacaExpiration) {
-		super();
 		this.memberNo = memberNo;
 		this.nameSei = nameSei;
 		this.nameMei = nameMei;

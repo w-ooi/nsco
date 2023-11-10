@@ -42,9 +42,9 @@ public class MemberDAO {
 				int crecaCompId = rs.getInt("creca_comp_id");
 				Creca creca = crecaDao.getCreca(crecaCompId);
 				String crecaNo = rs.getString("creca_no");
-				String creacaExpiration = rs.getString("creaca_expiration");
+				String crecaExpiration = rs.getString("creca_expiration");
 
-				member = new Member(memberNo,nameSei,nameMei,kanaSei,kanaMei,email,nickname,password,creca,crecaNo,creacaExpiration);
+				member = new Member(memberNo,nameSei,nameMei,kanaSei,kanaMei,email,nickname,password,creca,crecaNo,crecaExpiration);
 			}
 		} finally {
 			// リソースの解放
@@ -83,9 +83,9 @@ public class MemberDAO {
 				int crecaCompId = rs.getInt("creca_comp_id");
 				Creca creca = crecaDao.getCreca(crecaCompId);
 				String crecaNo = rs.getString("creca_no");
-				String creacaExpiration = rs.getString("creaca_expiration");
+				String crecaExpiration = rs.getString("creca_expiration");
 
-				Member member = new Member(memberNo,nameSei,nameMei,kanaSei,kanaMei,email,nickname,password,creca,crecaNo,creacaExpiration);
+				Member member = new Member(memberNo,nameSei,nameMei,kanaSei,kanaMei,email,nickname,password,creca,crecaNo,crecaExpiration);
 				list.add(member);
 			}
 		} finally {

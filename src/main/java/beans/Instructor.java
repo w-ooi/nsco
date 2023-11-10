@@ -1,40 +1,41 @@
 package beans;
 
 //スタッフ
-public class Staff {
-	private int staffCode;		//スタッフコード
-	private String staffName;	//スタッフ名
+public class Instructor {
+	private int instructorCode;		//インストラクタコード
+	private String instructorName;	//インストラクタ名
 	private Facility facility;	//所属施設
 	private String imageFile;	//イメージファイル
 	private String loginId;		//ログインID
 	private String password;	//パスワード
-
-	public Staff() {
+	
+	public Instructor() {
 	}
 
-	public Staff(int staffCode, String staffName, Facility facility, String imageFile, String loginId, String password) {
-		this.staffCode = staffCode;
-		this.staffName = staffName;
+	public Instructor(int instructorCode, String instructorName, Facility facility, String imageFile, String loginId,
+			String password) {
+		this.instructorCode = instructorCode;
+		this.instructorName = instructorName;
 		this.facility = facility;
 		this.imageFile = imageFile;
 		this.loginId = loginId;
 		this.password = password;
 	}
 
-	public int getStaffCode() {
-		return staffCode;
+	public int getInstructorCode() {
+		return instructorCode;
 	}
 
-	public void setStaffCode(int staffCode) {
-		this.staffCode = staffCode;
+	public void setInstructorCode(int instructorCode) {
+		this.instructorCode = instructorCode;
 	}
 
-	public String getStaffName() {
-		return staffName;
+	public String getInstructorName() {
+		return instructorName;
 	}
 
-	public void setStaffName(String staffName) {
-		this.staffName = staffName;
+	public void setInstructorName(String instructorName) {
+		this.instructorName = instructorName;
 	}
 
 	public Facility getFacility() {

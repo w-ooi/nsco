@@ -4,9 +4,9 @@ package beans;
 public class Schedule {
 	private int scheduleCode;		//スケジュールコード
 	private Lesson lesson;			//レッスン
-	private String event_date;		//開催日
+	private String eventDate;		//開催日
 	private TimeFrame timeFrame;	//時間枠
-	private Staff staff;			//スタッフ
+	private Instructor instructor;	//インストラクター
 	private String streamingId;		//配信ツールID
 	private String streamingPass;	//配信ツールパスコード
 	private int cancelFlag;			//中止フラグ
@@ -14,14 +14,13 @@ public class Schedule {
 	public Schedule() {
 	}
 
-	public Schedule(int scheduleCode, Lesson lesson, String event_date, TimeFrame timeFrame, Staff staff,
+	public Schedule(int scheduleCode, Lesson lesson, String eventDate, TimeFrame timeFrame, Instructor instructor,
 			String streamingId, String streamingPass, int cancelFlag) {
-		super();
 		this.scheduleCode = scheduleCode;
 		this.lesson = lesson;
-		this.event_date = event_date;
+		this.eventDate = eventDate;
 		this.timeFrame = timeFrame;
-		this.staff = staff;
+		this.instructor = instructor;
 		this.streamingId = streamingId;
 		this.streamingPass = streamingPass;
 		this.cancelFlag = cancelFlag;
@@ -43,12 +42,12 @@ public class Schedule {
 		this.lesson = lesson;
 	}
 
-	public String getEvent_date() {
-		return event_date;
+	public String getEventDate() {
+		return eventDate;
 	}
 
-	public void setEvent_date(String event_date) {
-		this.event_date = event_date;
+	public void setEventDate(String eventDate) {
+		this.eventDate = eventDate;
 	}
 
 	public TimeFrame getTimeFrame() {
@@ -59,12 +58,12 @@ public class Schedule {
 		this.timeFrame = timeFrame;
 	}
 
-	public Staff getStaff() {
-		return staff;
+	public Instructor getInstructor() {
+		return instructor;
 	}
 
-	public void setStaff(Staff staff) {
-		this.staff = staff;
+	public void setInstructor(Instructor instructor) {
+		this.instructor = instructor;
 	}
 
 	public String getStreamingId() {

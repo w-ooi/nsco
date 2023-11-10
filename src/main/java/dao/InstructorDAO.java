@@ -7,23 +7,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import beans.Facility;
-import beans.Staff;
+import beans.Instructor;
 
-public class StaffDAO {
+public class InstructorDAO {
 	private Connection con;
 
-	public StaffDAO(Connection con) {
+	public InstructorDAO(Connection con) {
 		this.con = con;
 	}
 
-	public Staff getStaff(int staffCode) throws SQLException {
-		Staff staff = null;
+	public Instructor getInstructor(int instructorCode) throws SQLException {
+		Instructor instructor = null;
 		PreparedStatement st = null;
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM staff where staff_code=?");
-			st.setInt(1, staffCode);
+			st = con.prepareStatement("SELECT * FROM instructor where instructor_code=?");
+			st.setInt(1, instructorCode);
 
 			// SQL文を発行
 			ResultSet rs = st.executeQuery();
@@ -32,14 +32,14 @@ public class StaffDAO {
 
 			// 結果を参照
 			if (rs.next()) {
-				String staffName = rs.getString("staff_name");
+				String instructorName = rs.getString("instructor_name");
 				int facilityCode = rs.getInt("facility_code");
 				Facility facility = facilityDao.getFacility(facilityCode);
 				String imageFile = rs.getString("image_file");
 				String loginId = rs.getString("login_id");
 				String password = rs.getString("password");
 
-				staff = new Staff(staffCode,staffName,facility,imageFile,loginId,password);
+				instructor = new Instructor(instructorCode,instructorName,facility,imageFile,loginId,password);
 			}
 		} finally {
 			// リソースの解放
@@ -48,17 +48,17 @@ public class StaffDAO {
 			}
 		}
 
-		// スタッフを返却
-		return staff;
+		// インストラクターを返却
+		return instructor;
 	}
 
-	public ArrayList<Staff> getAllStaff() throws SQLException {
-		ArrayList<Staff> list = new ArrayList<Staff>();
+	public ArrayList<Instructor> getAllInstructors() throws SQLException {
+		ArrayList<Instructor> list = new ArrayList<Instructor>();
 		PreparedStatement st = null;
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM staff");
+			st = con.prepareStatement("SELECT * FROM instructor");
 
 			// SQL文を発行
 			ResultSet rs = st.executeQuery();
@@ -67,17 +67,17 @@ public class StaffDAO {
 
 			// 結果を参照
 			while (rs.next()) {
-				int staffCode = rs.getInt("staff_code");
-				String staffName = rs.getString("staff_name");
+				int instructorCode = rs.getInt("instructor_code");
+				String instructorName = rs.getString("instructor_name");
 				int facilityCode = rs.getInt("facility_code");
 				Facility facility = facilityDao.getFacility(facilityCode);
 				String imageFile = rs.getString("image_file");
 				String loginId = rs.getString("login_id");
 				String password = rs.getString("password");
 
-				Staff staff = new Staff(staffCode,staffName,facility,imageFile,loginId,password);
+				Instructor instructor = new Instructor(instructorCode,instructorName,facility,imageFile,loginId,password);
 
-				list.add(staff);
+				list.add(instructor);
 			}
 		} finally {
 			// リソースの解放

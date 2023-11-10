@@ -10,7 +10,6 @@ public class TimeFrame {
 	}
 
 	public TimeFrame(int timeFrameCode, String startTime, String endTime) {
-		super();
 		this.timeFrameCode = timeFrameCode;
 		this.startTime = startTime;
 		this.endTime = endTime;
