@@ -2,10 +2,11 @@ package action;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Instructor;
 import beans.LessonCategory;
@@ -21,9 +22,9 @@ public class ViewTopPageAction implements IAction {
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String nextPage = "error.jsp";
 		Connection con = null;
-		ArrayList<LessonCategory> lessonCategoryList = null;
-		ArrayList<Instructor> instructorList = null;
-		ArrayList<TimeFrame> timeFrameList = null;
+		List<LessonCategory> lessonCategoryList = null;
+		List<Instructor> instructorList = null;
+		List<TimeFrame> timeFrameList = null;
 		
 		try {
         	//データベース接続情報を取得
@@ -39,9 +40,10 @@ public class ViewTopPageAction implements IAction {
 			instructorList = instructorDao.getAllInstructors();
 			timeFrameList = timeFrameDao.getAllTimeFrames();
 			
-			request.setAttribute("lessonCategoryList", lessonCategoryList);
-			request.setAttribute("instructorList", instructorList);
-			request.setAttribute("timeFrameList", timeFrameList);
+			HttpSession session = request.getSession();
+			session.setAttribute("lessonCategoryList", lessonCategoryList);
+			session.setAttribute("instructorList", instructorList);
+			session.setAttribute("timeFrameList", timeFrameList);
 			
 			nextPage = "index.jsp";
 		}catch (SQLException e) {

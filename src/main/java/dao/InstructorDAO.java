@@ -70,14 +70,17 @@ public class InstructorDAO {
 				int instructorCode = rs.getInt("instructor_code");
 				String instructorName = rs.getString("instructor_name");
 				int facilityCode = rs.getInt("facility_code");
-				Facility facility = facilityDao.getFacility(facilityCode);
-				String imageFile = rs.getString("image_file");
-				String loginId = rs.getString("login_id");
-				String password = rs.getString("password");
-
-				Instructor instructor = new Instructor(instructorCode,instructorName,facility,imageFile,loginId,password);
-
-				list.add(instructor);
+				
+				if(facilityCode > 0) {
+					Facility facility = facilityDao.getFacility(facilityCode);
+					String imageFile = rs.getString("image_file");
+					String loginId = rs.getString("login_id");
+					String password = rs.getString("password");
+					
+					Instructor instructor = new Instructor(instructorCode,instructorName,facility,imageFile,loginId,password);
+	
+					list.add(instructor);
+				}
 			}
 		} finally {
 			// リソースの解放

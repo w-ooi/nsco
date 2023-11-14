@@ -1,12 +1,99 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="java.util.List,java.util.ArrayList,beans.*" %>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>NatureSportsClubオンライン配信サイト</title>
+<%
+	List<LessonCategory> lessonCategoryList = (ArrayList<LessonCategory>)session.getAttribute("lessonCategoryList");
+	List<TimeFrame> timeFrameList = (ArrayList<TimeFrame>)session.getAttribute("timeFrameList");
+	List<Instructor> instructorList = (ArrayList<Instructor>)session.getAttribute("instructorList");
+	Member member = (Member)session.getAttribute("member");
+	
+	//index.jspに直接アクセスしたら、フロントコントローラへ転送
+	if(lessonCategoryList == null){
+%>
+<jsp:forward page="fc" />
+<%
+	}
+%>
 </head>
 <body>
-トップページ
+<div>
+<table style="margin:auto;border-collapse:separate;border-spacing:20px;">
+<tr>
+<td><a href="index.jsp"><img src="images/logo3.png" width="30%" height="30%"></a></td>
+<%
+	if(member == null){
+%>
+		<td><a href="">新規会員登録</a></td>
+		<td><form action="fc"><input type="submit" value="ログイン"><input type="hidden" name="visit" value="login"></form></td>
+<%
+	}else{
+%>
+		<td><%= member.getNickname() %>さん</td>
+		<td><form action="fc"><input type="submit" value="ログアウト"><input type="hidden" name="visit" value="logout"></form></td>
+<%
+	}
+%>
+</tr>
+</table>
+</div>
+<div style="text-align:center;"><img src="images/nsctop.jpg" width="80%" height="80%"></div>
+<br>
+<div style="text-align:center;"><strong>スケジュール検索</strong></div>
+<div style="text-align:center;">次のいずれかの条件で検索ができます</div>
+<form action="fc" method="post">
+<table style="margin:auto;border:1px solid;">
+<tr><th style="width:180px;">カテゴリ</th><td colspan="2" style="width:300px;"><select name="code">
+<option value="all">すべて</option>
+<%
+	for(LessonCategory category:lessonCategoryList){
+%>
+		<option value=<%= category.getLessonCategoryCode() %>><%= category.getLessonCategoryName() %></option>
+<%
+	}
+%>
+</select></td>
+<td style="width:50px;"><input type="submit" value="検索"></td></tr>
+</table>
+<input type="hidden" name="visit" value="lessonCategorySearch">
+</form>
+<br>
+<form action="fc" method="post">
+<table style="margin:auto;border:1px solid;">
+<tr><th style="width:177px;">日時</th><td style="width:150px;"><input type="date" name="date" required></td><td style="width:150px;"><select name="code">
+<option value="all">すべて</option>
+<%
+	for(TimeFrame timeFrame:timeFrameList){
+%>
+		<option value=<%= timeFrame.getTimeFrameCode() %>><%= timeFrame.getStartTime() %>～<%= timeFrame.getEndTime() %></option>
+<%
+	}
+%>
+</select></td>
+<td style="width:50px;"><input type="submit" value="検索"></td></tr>
+</table>
+<input type="hidden" name="visit" value="timeFrameSearch">
+</form>
+<br>
+<form action="fc" method="post">
+<table style="margin:auto;border:1px solid;">
+<tr><th style="width:180px;">インストラクター</th><td colspan="2" style="width:300px;"><select name="code">
+<option value="all">すべて</option>
+<%
+	for(Instructor instructor:instructorList){
+%>
+		<option value=<%= instructor.getInstructorCode() %>><%= instructor.getInstructorName() %></option>
+<%
+	}
+%>
+</select></td>
+<td style="width:50px;"><input type="submit" value="検索"></td></tr>
+</table>
+<input type="hidden" name="visit" value="instructorSearch">
+</form>
 </body>
 </html>

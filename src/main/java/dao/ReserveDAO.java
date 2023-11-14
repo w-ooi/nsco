@@ -43,7 +43,8 @@ public class ReserveDAO {
 				int lessonEvaluation = rs.getInt("lesson_evaluation");
 				int instructorEvaluation = rs.getInt("instructor_evaluation");
 
-				reserve = new Reserve(reserveCode,member,schedule,attendanceFlag,cancelFlag,lessonEvaluation,instructorEvaluation);
+				reserve = new Reserve(reserveCode, member, schedule, attendanceFlag, cancelFlag, lessonEvaluation,
+						instructorEvaluation);
 			}
 		} finally {
 			// リソースの解放
@@ -82,7 +83,8 @@ public class ReserveDAO {
 				int lessonEvaluation = rs.getInt("lesson_evaluation");
 				int instructorEvaluation = rs.getInt("instructor_evaluation");
 
-				Reserve reserve = new Reserve(reserveCode,member,schedule,attendanceFlag,cancelFlag,lessonEvaluation,instructorEvaluation);
+				Reserve reserve = new Reserve(reserveCode, member, schedule, attendanceFlag, cancelFlag,
+						lessonEvaluation, instructorEvaluation);
 
 				list.add(reserve);
 			}
@@ -95,5 +97,27 @@ public class ReserveDAO {
 
 		// リストを返却
 		return list;
+	}
+
+	public int setReserve(String memberNo, int scheduleCode) throws SQLException {
+		int intResult = 0;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("INSERT INTO reserve VALUES(null, ?, ?, 0, 0, 0, 0)");
+			st.setString(1, memberNo);
+			st.setInt(2, scheduleCode);
+
+			// SQL文を発行
+			intResult = st.executeUpdate();
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		return intResult;
 	}
 }
