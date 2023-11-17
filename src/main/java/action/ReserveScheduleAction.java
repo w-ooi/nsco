@@ -14,12 +14,13 @@ public class ReserveScheduleAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		String nextPage = "erro.jsp";
+		String nextPage = "error.jsp";
 		Connection con = null;
 		
 		Member member = (Member) request.getSession().getAttribute("member");
 
 		if(member == null) {
+			request.getSession().setAttribute("page", "searchResult.jsp");
 			nextPage = "login.jsp";
 		}else {
 			try {

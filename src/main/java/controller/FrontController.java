@@ -9,7 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import action.AuthenticationLoginAction;
+import action.CancelReserveAction;
+import action.ConfirmCancelAction;
+import action.ConfirmFillOutAction;
+import action.FillOutQuestionAction;
 import action.IAction;
+import action.LoginAction;
+import action.LogoutAction;
+import action.MyPageAction;
 import action.ReserveScheduleAction;
 import action.ScheduleSearchByInstructorAction;
 import action.ScheduleSearchByLessonCategoryAction;
@@ -49,6 +57,30 @@ public class FrontController extends HttpServlet {
 			break;
 		case "reserveSchedule":
 			action = new ReserveScheduleAction();
+			break;
+		case "login":
+			action = new LoginAction();
+			break;
+		case "logout":
+			action = new LogoutAction();
+			break;
+		case "authenticationLogin":
+			action = new AuthenticationLoginAction();
+			break;
+		case "mypage":
+			action = new MyPageAction();
+			break;
+		case "cancelReserve":
+			action = new CancelReserveAction();
+			break;
+		case "confirmCancel":
+			action = new ConfirmCancelAction();
+			break;
+		case "fillOutQuestion":
+			action = new FillOutQuestionAction();
+			break;
+		case "confirmFillOut":
+			action = new ConfirmFillOutAction();
 			break;
 		}
 

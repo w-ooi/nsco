@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import beans.Member;
 import beans.Reserve;
@@ -99,6 +101,7 @@ public class ReserveDAO {
 		return list;
 	}
 
+	//予約する
 	public int setReserve(String memberNo, int scheduleCode) throws SQLException {
 		int intResult = 0;
 		PreparedStatement st = null;
@@ -108,6 +111,156 @@ public class ReserveDAO {
 			st = con.prepareStatement("INSERT INTO reserve VALUES(null, ?, ?, 0, 0, 0, 0)");
 			st.setString(1, memberNo);
 			st.setInt(2, scheduleCode);
+
+			// SQL文を発行
+			intResult = st.executeUpdate();
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		return intResult;
+	}
+
+	//レッスン受講前の予約リスト
+	public ArrayList<Reserve> getBeforeTakeLessonReserves(String memberNo) throws SQLException {
+		ArrayList<Reserve> list = new ArrayList<Reserve>();
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=0");
+
+			// SQL文を発行
+			ResultSet rs = st.executeQuery();
+
+			MemberDAO memberDao = new MemberDAO(con);
+			ScheduleDAO scheduleDao = new ScheduleDAO(con);
+
+			// 結果を参照
+			while (rs.next()) {
+				int reserveCode = rs.getInt("reserve_code");
+				Member member = memberDao.getMember(memberNo);
+				int scheduleCode = rs.getInt("schedule_code");
+				Schedule schedule = scheduleDao.getSchedule(scheduleCode);
+				int attendanceFlag = rs.getInt("attendance_flag");
+				int cancelFlag = rs.getInt("cancel_flag");
+				int lessonEvaluation = rs.getInt("lesson_evaluation");
+				int instructorEvaluation = rs.getInt("instructor_evaluation");
+
+				Reserve reserve = new Reserve(reserveCode, member, schedule, attendanceFlag, cancelFlag,
+						lessonEvaluation, instructorEvaluation);
+
+				list.add(reserve);
+			}
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		// リストを返却
+		return list;
+	}
+
+	//レッスン受講後の予約リスト(最大30件)
+	public ArrayList<Reserve> getAfterTakeLessonReserves(String memberNo) throws SQLException {
+		ArrayList<Reserve> list = new ArrayList<Reserve>();
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=1");
+
+			// SQL文を発行
+			ResultSet rs = st.executeQuery();
+
+			MemberDAO memberDao = new MemberDAO(con);
+			ScheduleDAO scheduleDao = new ScheduleDAO(con);
+			
+			ArrayList<Reserve> tmpList = new ArrayList<Reserve>();
+
+			// 結果を参照
+			while (rs.next()) {
+				int reserveCode = rs.getInt("reserve_code");
+				Member member = memberDao.getMember(memberNo);
+				int scheduleCode = rs.getInt("schedule_code");
+				Schedule schedule = scheduleDao.getSchedule(scheduleCode);
+				int attendanceFlag = rs.getInt("attendance_flag");
+				int cancelFlag = rs.getInt("cancel_flag");
+				int lessonEvaluation = rs.getInt("lesson_evaluation");
+				int instructorEvaluation = rs.getInt("instructor_evaluation");
+
+				Reserve reserve = new Reserve(reserveCode, member, schedule, attendanceFlag, cancelFlag,
+						lessonEvaluation, instructorEvaluation);
+
+				tmpList.add(reserve);
+				
+				//開催日の降順でソート
+				Collections.sort(tmpList, new Comparator<Reserve>() {
+					@Override
+					public int compare(Reserve reserveFirst, Reserve reserveSecond) {
+
+						return reserveSecond.getSchedule().getEventDate().compareTo(reserveFirst.getSchedule().getEventDate());
+					}
+				});
+				
+				//最大30件
+				if(tmpList.size() > 30) {
+					for(int i = 0; i < 30; i++) {
+						list.add(tmpList.get(i));
+					}
+				}else {
+					list = tmpList; 
+				}
+			}
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		// リストを返却
+		return list;
+	}
+
+	//予約のキャンセル
+	public int cancelReserve(int reserveCode) throws SQLException {
+		int intResult = 0;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("UPDATE reserve SET cancel_flag=1 WHERE reserve_code=?");
+			st.setInt(1, reserveCode);
+
+			// SQL文を発行
+			intResult = st.executeUpdate();
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		return intResult;
+	}
+
+	// アンケート入力
+	public int updateEvaluation(int reserveCode, int lessonEvaluation, int instructorEvaluation) throws SQLException {
+		int intResult = 0;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("UPDATE reserve SET lesson_evaluation=?,instructor_evaluation=? WHERE reserve_code=?");
+			st.setInt(1, lessonEvaluation);
+			st.setInt(2, instructorEvaluation);
+			st.setInt(3, reserveCode);
 
 			// SQL文を発行
 			intResult = st.executeUpdate();

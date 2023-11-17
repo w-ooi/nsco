@@ -2,40 +2,39 @@ package action;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Schedule;
 import dao.ConnectionManager;
-import dao.ScheduleDAO;
+import dao.ReserveDAO;
 
-public class ScheduleSearchByTimeFrameAction implements IAction {
+public class ConfirmCancelAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String nextPage = "error.jsp";
 		Connection con = null;
-		List<Schedule> scheduleList = null;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             // DAOクラスをインスタンス化
-        	ScheduleDAO scheduleDao = new ScheduleDAO(con);
+        	ReserveDAO reserveDao = new ReserveDAO(con);
 	
-			//検索項目用
-        	String strDate = request.getParameter("date");
-        	String code = request.getParameter("code");
-        	scheduleList = scheduleDao.getScheduleByTimeFrame(strDate, code);
+    		int reserveCode = Integer.parseInt(request.getParameter("reserveCode"));
+    		int result = reserveDao.cancelReserve(reserveCode);
 			
         	HttpSession session = request.getSession(); 
-			session.setAttribute("scheduleList", scheduleList);
-			
-			nextPage = "searchResult.jsp";
+    		if(result == 1) {
+				session.setAttribute("cancelMessage", "レッスンをキャンセルしました");
+    		}else {
+    			session.setAttribute("cancelMessage", "レッスンをキャンセルできませんでした");
+    		}
+				
+			nextPage = "mypage.jsp";
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

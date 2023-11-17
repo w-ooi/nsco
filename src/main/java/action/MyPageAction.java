@@ -6,34 +6,38 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import beans.Schedule;
+import beans.Member;
+import beans.Reserve;
 import dao.ConnectionManager;
-import dao.ScheduleDAO;
+import dao.ReserveDAO;
 
-public class ScheduleSearchByTimeFrameAction implements IAction {
+public class MyPageAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String nextPage = "error.jsp";
 		Connection con = null;
-		List<Schedule> scheduleList = null;
 		
 		try {
-        	//データベース接続情報を取得
+			//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             // DAOクラスをインスタンス化
-        	ScheduleDAO scheduleDao = new ScheduleDAO(con);
-	
-			//検索項目用
-        	String strDate = request.getParameter("date");
-        	String code = request.getParameter("code");
-        	scheduleList = scheduleDao.getScheduleByTimeFrame(strDate, code);
+			ReserveDAO reserveDao = new ReserveDAO(con);
 			
-        	HttpSession session = request.getSession(); 
-			session.setAttribute("scheduleList", scheduleList);
+			// 会員情報取得
+			Member member = (Member)request.getSession().getAttribute("member");
+			String memberNo = member.getMemberNo();
+			
+			// 受講前リスト
+			List<Reserve> beforeTakeLesson = reserveDao.getBeforeTakeLessonReserves(memberNo);
+			
+			// 受講後リスト
+			List<Reserve> afterTakeLesson = reserveDao.getAfterTakeLessonReserves(memberNo);
+			
+			request.getSession().setAttribute("beforeTakeLesson", beforeTakeLesson);
+			request.getSession().setAttribute("afterTakeLesson", afterTakeLesson);
 			
 			nextPage = "searchResult.jsp";
 		}catch (SQLException e) {
@@ -46,7 +50,7 @@ public class ScheduleSearchByTimeFrameAction implements IAction {
 					e.printStackTrace();
 				}
         	}
-        }
+		}
 		
 		return nextPage;
 	}

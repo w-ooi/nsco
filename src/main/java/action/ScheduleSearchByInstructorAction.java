@@ -16,7 +16,7 @@ public class ScheduleSearchByInstructorAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		String nextPage = "erro.jsp";
+		String nextPage = "error.jsp";
 		Connection con = null;
 		List<Schedule> scheduleList = null;
 		
@@ -49,5 +49,4 @@ public class ScheduleSearchByInstructorAction implements IAction {
 		
 		return nextPage;
 	}
-
 }
