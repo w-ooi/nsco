@@ -28,12 +28,12 @@
 <%
 	if(member == null){
 %>
-		<td><a href="">新規会員登録</a></td>
+		<td><form action="fc" method="post"><input type="submit" value="新規会員登録"><input type="hidden" name="visit" value="registrationPage"></td>
 		<td><form action="fc" method="post"><input type="submit" value="ログイン"><input type="hidden" name="visit" value="login"><input type="hidden" name="page" value="index.jsp"></form></td>
 <%
 	}else{
 %>
-		<td><form action="fc" method="post"><input type="submit" value="マイページ"><input type="hidden" name="visit" value="mypage"></form></td>
+		<td><form action="fc" method="post"><input type="submit" value="マイページ"><input type="hidden" name="visit" value="myPage"></form></td>
 		<td><form action="fc" method="post"><input type="submit" value="ログアウト"><input type="hidden" name="visit" value="logout"></form></td>
 <%
 	}

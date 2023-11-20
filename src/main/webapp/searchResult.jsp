@@ -13,6 +13,7 @@
 	List<Instructor> instructorList = (ArrayList<Instructor>)session.getAttribute("instructorList");
 	List<Schedule> scheduleList = (ArrayList<Schedule>)session.getAttribute("scheduleList");
 	Member member = (Member)session.getAttribute("member");
+	List<Reserve> reserveList = (ArrayList<Reserve>)session.getAttribute("reserveList");
 	
 %>
 </head>
@@ -24,12 +25,12 @@
 <%
 	if(member == null){
 %>
-		<td><a href="">新規会員登録</a></td>
+		<td><form action="fc" method="post"><input type="submit" value="新規会員登録"><input type="hidden" name="visit" value="registrationPage"></td>
 		<td><form action="fc"><input type="submit" value="ログイン"><input type="hidden" name="visit" value="login"></form></td>
 <%
 	}else{
 %>
-		<td><form action="fc" method="post"><input type="submit" value="マイページ"><input type="hidden" name="visit" value="mypage"></form></td>
+		<td><form action="fc" method="post"><input type="submit" value="マイページ"><input type="hidden" name="visit" value="myPage"></form></td>
 		<td><form action="fc" method="post"><input type="submit" value="ログアウト"><input type="hidden" name="visit" value="logout"></form></td>
 <%
 	}
@@ -108,7 +109,29 @@
 		<tr><th>開催日時</th><td><%= schedule.getEventDate() %>&nbsp;
 		<%= schedule.getTimeFrame().getStartTime() %>～<%= schedule.getTimeFrame().getEndTime() %></td></tr>
 		<tr><th>インストラクター</th><td><%= schedule.getInstructor().getInstructorName() %></td></tr>
-		<tr><th colspan="3"><input type="submit" value="予約する"></th></tr>
+		<tr><th colspan="3">
+<%
+		boolean reserveFlag = false;
+		if(member != null && reserveList != null){
+			for(Reserve reserve : reserveList){
+				if(schedule.getScheduleCode() == reserve.getSchedule().getScheduleCode()){
+					reserveFlag = true;
+					break;
+				}
+			}
+		}
+		
+		if(reserveFlag){
+%>
+			<span>予約済みです</span>
+<%
+		}else{
+%>
+			<input type="submit" value="予約する">
+<%
+		}
+%>
+		</th></tr>
 		</table>
 		<input type="hidden" name="scheduleCode" value=<%= schedule.getScheduleCode() %>>
 		<input type="hidden" name="visit" value="reserveSchedule">

@@ -2,39 +2,40 @@ package action;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Schedule;
+import beans.Member;
 import dao.ConnectionManager;
-import dao.ScheduleDAO;
+import dao.MemberDAO;
 
-public class ScheduleSearchByLessonCategoryAction implements IAction {
+public class ConfirmRegistrationAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String nextPage = "error.jsp";
 		Connection con = null;
-		List<Schedule> scheduleList = null;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
-            // DAOクラスをインスタンス化
-        	ScheduleDAO scheduleDao = new ScheduleDAO(con);
-	
-			//検索項目用
-        	String code = request.getParameter("code");
-        	scheduleList = scheduleDao.getScheduleByLessonCategory(code);
-        	
         	HttpSession session = request.getSession(); 
-			session.setAttribute("scheduleList", scheduleList);
+
+        	// DAOクラスをインスタンス化
+        	MemberDAO memberDao = new MemberDAO(con);
+        	Member member = (Member)session.getAttribute("registrationMember");
+    		int result = memberDao.insertMember(member);
 			
-			nextPage = "searchResult.jsp";
+    		if(result == 1) {
+				session.setAttribute("registrationMessage", "会員情報を登録しました");
+    		}else {
+    			session.setAttribute("registrationMessage", "会員情報を登録できませんでした");
+    		}
+				
+			nextPage = "logion.jsp";
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

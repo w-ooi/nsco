@@ -60,5 +60,4 @@ public class ViewTopPageAction implements IAction {
 
 		return nextPage;
 	}
-
 }

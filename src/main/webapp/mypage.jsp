@@ -25,10 +25,19 @@
 </tr>
 </table>
 </div>
+<div style="text-align:center;"><strong>会員情報変更</strong></div>
+<div style="text-align:center;">会員情報の変更が可能です</div>
+<form action="fc" method="post">
+<table style="margin:auto;border:1px solid;">
+	<tr><th>パスワード変更</th><th style="width:600px"><input type="submit" value="変更する"></th></tr>
+</table>
+<input type="hidden" name="visit" value="registrationPassword">
+</form>
+<hr>
 <div style="text-align:center;"><strong>予約レッスン一覧</strong></div>
 <div style="text-align:center;">前日の18:00までキャンセルが可能です</div>
 <%
-	if(cancelMessage != null && cancelMessage.equals("")){
+	if(cancelMessage != null && !cancelMessage.equals("")){
 %>
 		<br>
 		<div style="text-align:center;color:#ff0000;"><strong><%= cancelMessage %></strong></div>
@@ -64,7 +73,7 @@
 <div style="text-align:center;"><strong>受講済みレッスン一覧</strong></div>
 <div style="text-align:center;">アンケートにご協力ください</div>
 <%
-	if(fillOutMessage != null && fillOutMessage.equals("")){
+	if(fillOutMessage != null && !fillOutMessage.equals("")){
 %>
 		<br>
 		<div style="text-align:center;color:#ff0000;"><strong><%= fillOutMessage %></strong></div>

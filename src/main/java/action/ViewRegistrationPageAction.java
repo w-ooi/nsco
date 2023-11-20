@@ -8,33 +8,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Schedule;
+import beans.Creca;
 import dao.ConnectionManager;
-import dao.ScheduleDAO;
+import dao.CrecaDAO;
 
-public class ScheduleSearchByLessonCategoryAction implements IAction {
+public class ViewRegistrationPageAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
 		String nextPage = "error.jsp";
 		Connection con = null;
-		List<Schedule> scheduleList = null;
+		List<Creca> crecaList = null;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             // DAOクラスをインスタンス化
-        	ScheduleDAO scheduleDao = new ScheduleDAO(con);
+        	CrecaDAO crecaDao = new CrecaDAO(con);
 	
 			//検索項目用
-        	String code = request.getParameter("code");
-        	scheduleList = scheduleDao.getScheduleByLessonCategory(code);
-        	
-        	HttpSession session = request.getSession(); 
-			session.setAttribute("scheduleList", scheduleList);
+        	crecaList = crecaDao.getAllCrecas();
 			
-			nextPage = "searchResult.jsp";
+			HttpSession session = request.getSession();
+			session.setAttribute("crecaList", crecaList);
+			
+			nextPage = "registrationMember.jsp";
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {
@@ -46,7 +45,7 @@ public class ScheduleSearchByLessonCategoryAction implements IAction {
 				}
         	}
         }
-		
+
 		return nextPage;
 	}
 }

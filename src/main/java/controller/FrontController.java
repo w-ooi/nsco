@@ -13,15 +13,18 @@ import action.AuthenticationLoginAction;
 import action.CancelReserveAction;
 import action.ConfirmCancelAction;
 import action.ConfirmFillOutAction;
+import action.ConfirmRegistrationAction;
 import action.FillOutQuestionAction;
 import action.IAction;
 import action.LoginAction;
 import action.LogoutAction;
 import action.MyPageAction;
+import action.RegistrationMemberAction;
 import action.ReserveScheduleAction;
 import action.ScheduleSearchByInstructorAction;
 import action.ScheduleSearchByLessonCategoryAction;
 import action.ScheduleSearchByTimeFrameAction;
+import action.ViewRegistrationPageAction;
 import action.ViewTopPageAction;
 
 @WebServlet("/fc")
@@ -67,7 +70,7 @@ public class FrontController extends HttpServlet {
 		case "authenticationLogin":
 			action = new AuthenticationLoginAction();
 			break;
-		case "mypage":
+		case "myPage":
 			action = new MyPageAction();
 			break;
 		case "cancelReserve":
@@ -81,6 +84,18 @@ public class FrontController extends HttpServlet {
 			break;
 		case "confirmFillOut":
 			action = new ConfirmFillOutAction();
+			break;
+		case "registrationPage":
+			action = new ViewRegistrationPageAction();
+			break;
+		case "topPage":
+			action = new ViewTopPageAction();
+			break;
+		case "registrationMember":
+			action = new RegistrationMemberAction();
+			break;
+		case "confirmRegistration":
+			action = new ConfirmRegistrationAction();
 			break;
 		}
 
