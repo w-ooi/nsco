@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Random;
 
 import beans.Creca;
@@ -23,7 +22,7 @@ public class MemberDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM member where member_no=?");
+			st = con.prepareStatement("SELECT * FROM member WHERE member_no=?");
 			st.setString(1, memberNo);
 
 			// SQL文を発行
@@ -58,55 +57,13 @@ public class MemberDAO {
 		return member;
 	}
 
-	public ArrayList<Member> getAllMembers() throws SQLException {
-		ArrayList<Member> list = new ArrayList<Member>();
-		PreparedStatement st = null;
-
-		try {
-			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM member");
-
-			// SQL文を発行
-			ResultSet rs = st.executeQuery();
-
-			CrecaDAO crecaDao = new CrecaDAO(con);
-
-			// 結果を参照
-			while (rs.next()) {
-				String memberNo = rs.getString("member_no");
-				String nameSei = rs.getString("name_sei");
-				String nameMei = rs.getString("name_mei");
-				String kanaSei = rs.getString("kana_sei");
-				String kanaMei = rs.getString("kana_mei");
-				String email = rs.getString("email");
-				String nickname = rs.getString("nickname");
-				String password = rs.getString("password");
-				int crecaCompId = rs.getInt("creca_comp_id");
-				Creca creca = crecaDao.getCreca(crecaCompId);
-				String crecaNo = rs.getString("creca_no");
-				String crecaExpiration = rs.getString("creca_expiration");
-
-				Member member = new Member(memberNo,nameSei,nameMei,kanaSei,kanaMei,email,nickname,password,creca,crecaNo,crecaExpiration);
-				list.add(member);
-			}
-		} finally {
-			// リソースの解放
-			if (st != null) {
-				st.close();
-			}
-		}
-
-		// リストを返却
-		return list;
-	}
-
 	public Member getMemberById(String memberNo, String password) throws SQLException {
 		Member member = null;
 		PreparedStatement st = null;
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM member where member_no=? and password=?");
+			st = con.prepareStatement("SELECT * FROM member WHERE member_no=? and password=?");
 			st.setString(1, memberNo);
 			st.setString(2, password);
 			
@@ -168,6 +125,33 @@ public class MemberDAO {
 		return result;
 	}
 
+	//メールアドレスの重複チェック
+	public boolean checkDuplicateEmail(String email) throws SQLException {
+		boolean result = true;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("SELECT * FROM member WHERE email=?");
+			st.setString(1, email);
+			
+			// SQL文を発行
+			ResultSet rs = st.executeQuery();
+
+			// 結果を参照
+			if (rs.next()) {
+				result = false;
+			}
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+		
+		return result;
+	}
+	
 	//新規会員番号取得
 	private String getNewMemberNo() throws SQLException{
 		String memberNo = "1000000000";
@@ -196,6 +180,7 @@ public class MemberDAO {
 		return memberNo;
 	}
 	
+	//新規メンバー登録
 	public int insertMember(Member member) throws SQLException{
 		int intResult = 0;
 		PreparedStatement st = null;
@@ -226,4 +211,27 @@ public class MemberDAO {
 		
 		return intResult;
 	}
+	
+	//パスワード変更
+	public int updatePassword(String memberNo, String newPassword) throws SQLException {
+		int intResult = 0;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("UPDATE member SET password=? WHERE member_no=?");
+			st.setString(1, newPassword);
+			st.setString(2, memberNo);
+			
+			// SQL文を発行
+			intResult = st.executeUpdate();
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+		
+		return intResult;
+	}	
 }

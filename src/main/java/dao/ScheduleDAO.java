@@ -29,7 +29,7 @@ public class ScheduleDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM schedule where schedule_code=?");
+			st = con.prepareStatement("SELECT * FROM schedule WHERE schedule_code=?");
 			st.setInt(1, scheduleCode);
 
 			// SQL文を発行
@@ -126,65 +126,42 @@ public class ScheduleDAO {
 		return newList;
 	}
 
-	public ArrayList<Schedule> getAllSchedules() throws SQLException {
+	public List<Schedule> getScheduleByLessonCategory(String code) throws SQLException {
 		ArrayList<Schedule> list = new ArrayList<Schedule>();
 		PreparedStatement st = null;
 
-		try {
-			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM schedule");				
-
-			// SQL文を発行
-			ResultSet rs = st.executeQuery();
-
-			LessonDAO lessonDao = new LessonDAO(con);
-			TimeFrameDAO timeFrameDao = new TimeFrameDAO(con);
-			InstructorDAO instructorDao = new InstructorDAO(con);
-
-			// 結果を参照
-			while (rs.next()) {
-				int scheduleCode = rs.getInt("schedule_code");
-				int lessonCode = rs.getInt("lesson_code");
-				Lesson lesson = lessonDao.getLesson(lessonCode);
-				String eventDate = rs.getDate("event_date").toString();
-				int timeFrameCode = rs.getInt("time_frame_code");
-				TimeFrame timeFrame = timeFrameDao.getTimeFrame(timeFrameCode);
-				int instructorCode = rs.getInt("instructor_code");
-				Instructor instructor = instructorDao.getInstructor(instructorCode);
-				String streamingId = rs.getString("streaming_id");
-				String streamingPass = rs.getString("streaming_pass");
-				int cancelFlag = rs.getInt("cancel_flag");
-
-				Schedule schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,instructor,streamingId,streamingPass,cancelFlag);
-
-				list.add(schedule);
-			}
-		} finally {
-			// リソースの解放
-			if (st != null) {
-				st.close();
-			}
-		}
-
-		// リストを返却
-		return list;
-	}
-
-	public List<Schedule> getScheduleByLessonCategory(String code) throws SQLException {
-		ArrayList<Schedule> list = new ArrayList<Schedule>();
-
-		ArrayList<Schedule> scheduleList = getAllSchedules();
-
 		if(!code.equals("all")) {
-			int iCode = Integer.parseInt(code);
-
-			for(Schedule schedule : scheduleList) {
-				if(schedule.getLesson().getLessonCategory().getLessonCategoryCode() == iCode) {
-					list.add(schedule);
-				}
-			}
+			// PreparedStatementの取得
+			st = con.prepareStatement("SELECT schedule_code,s.lesson_code,event_date,time_frame_code,instructor_code,streaming_id,streaming_pass,cancel_flag,lesson_category_code FROM schedule s INNER JOIN lesson l ON s.lesson_code=l.lesson_code WHERE s.lesson_code=?");
+			st.setString(1, code);
 		}else {
-			list = scheduleList;
+			st = con.prepareStatement("SELECT * FROM schedule");
+		}
+		
+		// SQL文を発行
+		ResultSet rs = st.executeQuery();
+
+		LessonDAO lessonDao = new LessonDAO(con);
+		TimeFrameDAO timeFrameDao = new TimeFrameDAO(con);
+		InstructorDAO instructorDao = new InstructorDAO(con);
+
+		// 結果を参照
+		while (rs.next()) {
+			int scheduleCode = rs.getInt("schedule_code");
+			int lessonCode = rs.getInt("lesson_code");
+			Lesson lesson = lessonDao.getLesson(lessonCode);
+			String eventDate = rs.getDate("event_date").toString();
+			int timeFrameCode = rs.getInt("time_frame_code");
+			TimeFrame timeFrame = timeFrameDao.getTimeFrame(timeFrameCode);
+			int instructorCode = rs.getInt("instructor_code");
+			Instructor instructor = instructorDao.getInstructor(instructorCode);
+			String streamingId = rs.getString("streaming_id");
+			String streamingPass = rs.getString("streaming_pass");
+			int cancelFlag = rs.getInt("cancel_flag");
+
+			Schedule schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,instructor,streamingId,streamingPass,cancelFlag);
+
+			list.add(schedule);
 		}
 
 		// リストを返却
@@ -200,13 +177,13 @@ public class ScheduleDAO {
 				int iCode = Integer.parseInt(code);
 
 				// PreparedStatementの取得
-				st = con.prepareStatement("SELECT * FROM schedule where event_date=? AND time_frame_code=?");
+				st = con.prepareStatement("SELECT * FROM schedule WHERE event_date=? AND time_frame_code=?");
 				
 				st.setDate(1, java.sql.Date.valueOf(strDate));
 				st.setInt(2, iCode);
 			}else {
 				// PreparedStatementの取得
-				st = con.prepareStatement("SELECT * FROM schedule where event_date=?");
+				st = con.prepareStatement("SELECT * FROM schedule WHERE event_date=?");
 				
 				st.setDate(1, java.sql.Date.valueOf(strDate));
 			}
@@ -256,7 +233,7 @@ public class ScheduleDAO {
 				int iCode = Integer.parseInt(code);
 
 				// PreparedStatementの取得
-				st = con.prepareStatement("SELECT * FROM schedule where instructor_code=?");
+				st = con.prepareStatement("SELECT * FROM schedule WHERE instructor_code=?");
 				st.setInt(1, iCode);
 			}else {
 				st = con.prepareStatement("SELECT * FROM schedule");

@@ -29,12 +29,15 @@
 	<tr><th>インストラクター名</th><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
 	<tr><th colspan="2"><input type="submit" value="キャンセルの確定"></th></tr>
 </table>
-<input type="hidden" name="visit" value="confirmCancel">
+<input type="hidden" name="visit" value="confirmCancelReserve">
 <input type="hidden" name="reserveCode" value="<%= reserve.getReserveCode() %>">
 </form>
+<br>
+<div style="text-align:center;">
 <form action="fc" method="post">
 <input type="submit" value="マイページへ戻る">
 <input type="hidden" name="visit" value="myPage">
 </form>
+</div>
 </body>
 </html>

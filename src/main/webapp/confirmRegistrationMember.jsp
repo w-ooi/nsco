@@ -34,11 +34,13 @@
 <tr><th style="width:180px;">カード期限</th><td><%= member.getCreacaExpiration() %></td></tr>
 <tr><th colspan="2"><input type="submit" value="会員登録の確定"></th></tr>
 </table>
-<input type="hidden" name="visit" value="confirmRegistration">
+<input type="hidden" name="visit" value="confirmRegistrationMember">
 </form>
+<div style="text-align:center;">
 <form action="fc" method="post">
 <input type="submit" value="新規会員登録ページへ戻る">
 <input type="hidden" name="visit" value="registrationPage">
 </form>
+</div>
 </body>
 </html>

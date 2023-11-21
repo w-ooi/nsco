@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import action.AuthenticationLoginAction;
 import action.CancelReserveAction;
-import action.ConfirmCancelAction;
-import action.ConfirmFillOutAction;
-import action.ConfirmRegistrationAction;
+import action.ConfirmCancelReserveAction;
+import action.ConfirmFillOutQuestionAction;
+import action.ConfirmRegistrationMemberAction;
+import action.ConfirmUpdatePasswordAction;
 import action.FillOutQuestionAction;
 import action.IAction;
 import action.LoginAction;
@@ -24,8 +25,10 @@ import action.ReserveScheduleAction;
 import action.ScheduleSearchByInstructorAction;
 import action.ScheduleSearchByLessonCategoryAction;
 import action.ScheduleSearchByTimeFrameAction;
+import action.UpdatePasswordAction;
 import action.ViewRegistrationPageAction;
 import action.ViewTopPageAction;
+import orgex.NSCOException;
 
 @WebServlet("/fc")
 public class FrontController extends HttpServlet {
@@ -33,7 +36,14 @@ public class FrontController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		IAction action = new ViewTopPageAction();
-        String nextPage = action.execute(request, response);
+        String nextPage = null;
+        
+        try {
+			nextPage = action.execute(request, response);
+		} catch (NSCOException e) {
+			request.setAttribute("errorMessage", e.getMessage());
+			nextPage = "error.jsp";
+		}
 
         // フォワード設定
         RequestDispatcher rd = request.getRequestDispatcher(nextPage);
@@ -76,14 +86,14 @@ public class FrontController extends HttpServlet {
 		case "cancelReserve":
 			action = new CancelReserveAction();
 			break;
-		case "confirmCancel":
-			action = new ConfirmCancelAction();
+		case "confirmCancelReserve":
+			action = new ConfirmCancelReserveAction();
 			break;
 		case "fillOutQuestion":
 			action = new FillOutQuestionAction();
 			break;
-		case "confirmFillOut":
-			action = new ConfirmFillOutAction();
+		case "confirmFillOutQuestion":
+			action = new ConfirmFillOutQuestionAction();
 			break;
 		case "registrationPage":
 			action = new ViewRegistrationPageAction();
@@ -94,12 +104,25 @@ public class FrontController extends HttpServlet {
 		case "registrationMember":
 			action = new RegistrationMemberAction();
 			break;
-		case "confirmRegistration":
-			action = new ConfirmRegistrationAction();
+		case "confirmRegistrationMember":
+			action = new ConfirmRegistrationMemberAction();
+			break;
+		case "updatePassword":
+			action = new UpdatePasswordAction();
+			break;
+		case "confirmUpdatePassword":
+			action = new ConfirmUpdatePasswordAction();
 			break;
 		}
 
-        String nextPage = action.execute(request, response);
+        String nextPage = null;
+        
+        try {
+			nextPage = action.execute(request, response);
+		} catch (NSCOException e) {
+			request.setAttribute("errorMessage", e.getMessage());
+			nextPage = "error.jsp";
+		}
 
         // フォワード設定
         RequestDispatcher rd = request.getRequestDispatcher(nextPage);

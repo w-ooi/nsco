@@ -1,34 +1,36 @@
-package test.facilitydao;
+package test.crecadao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import beans.Facility;
+import beans.Creca;
 import dao.ConnectionManager;
-import dao.FacilityDAO;
+import dao.CrecaDAO;
 
-public class TestGetAllFacilities {
-
+public class TestGetCreca {
+	
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<Facility> facilityList = null;
+		Creca creca = null;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             //DAOクラスをインスタンス化
-        	FacilityDAO facilityDao = new FacilityDAO(con);
+        	CrecaDAO crecaDao = new CrecaDAO(con);
             
-            //テスト対象メソッドの呼び出し
-        	facilityList = facilityDao.getAllFacilities();
+            //正常系
+        	creca = crecaDao.getCreca(1);
+        	System.out.println("期待する結果:VISA");
+			System.out.println("実行結果:" + creca.getCrecaCompName());
+			System.out.println();
 			
-			//結果の確認 
-			for(Facility fc : facilityList) {
-				System.out.print(fc.getFacilityCode() + ":");
-				System.out.println(fc.getFacilityName());
-			}
+            //異常系
+        	creca = crecaDao.getCreca(11);
+        	System.out.println("期待する結果:null");
+			System.out.println("実行結果:" + creca);
+			System.out.println();
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

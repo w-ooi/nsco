@@ -2,34 +2,34 @@ package test.memberdao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import beans.Member;
 import dao.ConnectionManager;
 import dao.MemberDAO;
 
-public class TestGetAllMembers {
+public class TestCheckDuplicateNickname {
 
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<Member> memberList = null;
+		boolean result = false;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             //DAOクラスをインスタンス化
-            MemberDAO memberDao = new MemberDAO(con);
+        	MemberDAO memberDao = new MemberDAO(con);
             
-            //テスト対象メソッドの呼び出し
-            memberList = memberDao.getAllMembers();
+            //正常系(重複しない)
+        	result = memberDao.checkDuplicateNickname("テスト");
+        	System.out.println("期待する結果:true");
+			System.out.println("実行結果:" + result);
+			System.out.println();
 			
-			//結果の確認 
-			for(Member mm : memberList) {
-				System.out.print(mm.getMemberNo() + ":");
-				System.out.print(mm.getNameSei() + ":");
-				System.out.println(mm.getNameMei());
-			}
+            //異常系(重複する)
+			result = memberDao.checkDuplicateNickname("ヒロ");
+        	System.out.println("期待する結果:false");
+			System.out.println("実行結果:" + result);
+			System.out.println();
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

@@ -9,7 +9,8 @@
 <%
 	List<Creca> crecaList = (ArrayList<Creca>)session.getAttribute("crecaList");
 	Member member = (Member)session.getAttribute("registrationMember");
-	String registrationMessage = (String)session.getAttribute("registrationMessage");
+	String registrationEmailMessage = (String)session.getAttribute("registrationEmailMessage");
+	String registrationNickNameMessage = (String)session.getAttribute("registrationNickNameMessage");
 %>
 </head>
 <body>
@@ -24,25 +25,37 @@
 <div style="text-align:center;">すべての項目を入力してください</div>
 <div style="text-align:center;">お支払いはクレジットカードのみとなります</div>
 <%
-	if(registrationMessage != null && !registrationMessage.equals("")){
+	if(registrationEmailMessage != null && !registrationEmailMessage.equals("")){
 %>
 		<br>
-		<div style="text-align:center;color:#ff0000;"><strong><%= registrationMessage %></strong></div>
+		<div style="text-align:center;color:#ff0000;"><strong><%= registrationEmailMessage %></strong></div>
 		<br>
 <%
-		session.removeAttribute("registrationMessage");
+		session.removeAttribute("registrationEmailMessage");
 	}
 %>
 
+<%
+	if(registrationNickNameMessage != null && !registrationNickNameMessage.equals("")){
+%>
+		<br>
+		<div style="text-align:center;color:#ff0000;"><strong><%= registrationNickNameMessage %></strong></div>
+		<br>
+<%
+		session.removeAttribute("registrationNickNameMessage");
+	}
+%>
+
+
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:180px;">氏名（姓）</th><td><input type="text" name="nameSei" required value=<% if(member!=null){ %><%= member.getNameSei() %><% } %>></td></tr>
-<tr><th style="width:180px;">氏名（名）</th><td><input type="text" name="nameMei" required value=<% if(member!=null){ %><%= member.getNameMei() %><% } %>></td></tr>
-<tr><th style="width:180px;">ふりがな（姓）</th><td><input type="text" name="kanaSei" required value=<% if(member!=null){ %><%= member.getKanaSei() %><% } %>></td></tr>
-<tr><th style="width:180px;">ふりがな（名）</th><td><input type="text" name="kanaMei" required value=<% if(member!=null){ %><%= member.getKanaMei() %><% } %>></td></tr>
-<tr><th style="width:180px;">メールアドレス</th><td><input type="email" name="email" required value=<% if(member!=null){ %><%= member.getEmail() %><% } %>></td></tr>
-<tr><th style="width:180px;">ニックネーム</th><td><input type="text" name="nickName" required value=<% if(member!=null){ %><%= member.getNickname() %><% } %>></td></tr>
-<tr><th style="width:180px;">パスワード</th><td><input type="text" name="password" required value=<% if(member!=null){ %><%= member.getPassword() %><% } %>></td></tr>
+<tr><th style="width:180px;">氏名（姓）</th><td><input type="text" name="nameSei" required value="<% if(member!=null){ %><%= member.getNameSei() %><% } %>"></td></tr>
+<tr><th style="width:180px;">氏名（名）</th><td><input type="text" name="nameMei" required value="<% if(member!=null){ %><%= member.getNameMei() %><% } %>"></td></tr>
+<tr><th style="width:180px;">ふりがな（姓）</th><td><input type="text" name="kanaSei" required value="<% if(member!=null){ %><%= member.getKanaSei() %><% } %>"></td></tr>
+<tr><th style="width:180px;">ふりがな（名）</th><td><input type="text" name="kanaMei" required value="<% if(member!=null){ %><%= member.getKanaMei() %><% } %>"></td></tr>
+<tr><th style="width:180px;">メールアドレス</th><td><input type="email" name="email" required value="<% if(member!=null){ %><%= member.getEmail() %><% } %>"></td></tr>
+<tr><th style="width:180px;">ニックネーム</th><td><input type="text" name="nickName" required value="<% if(member!=null){ %><%= member.getNickname() %><% } %>"></td></tr>
+<tr><th style="width:180px;">パスワード</th><td><input type="text" name="password" required value="<% if(member!=null){ %><%= member.getPassword() %><% } %>"></td></tr>
 <tr><th style="width:180px;">カード会社</th><td><select name="crecaCompId">
 <%
 	for(Creca creca:crecaList){
@@ -59,9 +72,12 @@
 </table>
 <input type="hidden" name="visit" value="registrationMember">
 </form>
+<br>
+<div style="text-align:center;">
 <form action="fc" method="post">
 <input type="submit" value="トップページへ戻る">
 <input type="hidden" name="visit" value="topPage">
 </form>
+</div>
 </body>
 </html>

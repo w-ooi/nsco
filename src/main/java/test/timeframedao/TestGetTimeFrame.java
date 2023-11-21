@@ -2,17 +2,16 @@ package test.timeframedao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import beans.TimeFrame;
 import dao.ConnectionManager;
 import dao.TimeFrameDAO;
 
-public class TestGetAllTimeFrames {
-
+public class TestGetTimeFrame {
+	
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<TimeFrame> timeFrameList = null;
+		TimeFrame timeFrame = null;
 		
 		try {
         	//データベース接続情報を取得
@@ -21,15 +20,18 @@ public class TestGetAllTimeFrames {
             //DAOクラスをインスタンス化
         	TimeFrameDAO timeFrameDao = new TimeFrameDAO(con);
             
-            //テスト対象メソッドの呼び出し
-        	timeFrameList = timeFrameDao.getAllTimeFrames();
+            //正常系
+        	timeFrame = timeFrameDao.getTimeFrame(1);
+        	System.out.println("期待する結果:10:00 10:50");
+			System.out.println("実行結果:" + timeFrame.getStartTime() + " " + timeFrame.getEndTime());
+			System.out.println();
 			
-			//結果の確認 
-			for(TimeFrame tf : timeFrameList) {
-				System.out.print(tf.getStartTime() + ":");
-				System.out.println(tf.getEndTime());
-			}
-			System.out.println("件数:" + timeFrameList.size());
+            //異常系
+        	timeFrame = timeFrameDao.getTimeFrame(10);
+        	System.out.println("期待する結果:null");
+			System.out.println("実行結果:" + timeFrame);
+			System.out.println();
+			
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

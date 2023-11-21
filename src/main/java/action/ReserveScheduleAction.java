@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import beans.Member;
 import dao.ConnectionManager;
 import dao.ReserveDAO;
+import orgex.NSCOException;
 
 public class ReserveScheduleAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		
@@ -42,7 +43,7 @@ public class ReserveScheduleAction implements IAction {
 				}
 				nextPage = "searchResult.jsp";
 			}catch (SQLException e) {
-	            e.printStackTrace();
+				throw new NSCOException(e.getMessage());
 	        }finally {
 	        	if(con != null) {
 	        		try {

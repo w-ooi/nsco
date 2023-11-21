@@ -21,7 +21,7 @@ public class CrecaDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM creca where creca_comp_id=?");
+			st = con.prepareStatement("SELECT * FROM creca WHERE creca_comp_id=?");
 			st.setInt(1, crecaCompId);
 
 			// SQL文を発行

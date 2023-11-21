@@ -11,11 +11,12 @@ import beans.Member;
 import beans.Reserve;
 import dao.ConnectionManager;
 import dao.ReserveDAO;
+import orgex.NSCOException;
 
 public class MyPageAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		
@@ -39,9 +40,9 @@ public class MyPageAction implements IAction {
 			request.getSession().setAttribute("beforeTakeLesson", beforeTakeLesson);
 			request.getSession().setAttribute("afterTakeLesson", afterTakeLesson);
 			
-			nextPage = "searchResult.jsp";
+			nextPage = "myPage.jsp";
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {

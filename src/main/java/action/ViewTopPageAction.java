@@ -15,11 +15,12 @@ import dao.ConnectionManager;
 import dao.InstructorDAO;
 import dao.LessonCategoryDAO;
 import dao.TimeFrameDAO;
+import orgex.NSCOException;
 
 public class ViewTopPageAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		List<LessonCategory> lessonCategoryList = null;
@@ -47,7 +48,7 @@ public class ViewTopPageAction implements IAction {
 			
 			nextPage = "index.jsp";
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {

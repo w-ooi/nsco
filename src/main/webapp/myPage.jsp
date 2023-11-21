@@ -10,6 +10,7 @@
 	List<Reserve> beforeTakeLesson = (ArrayList<Reserve>)session.getAttribute("beforeTakeLesson");
 	List<Reserve> afterTakeLesson = (ArrayList<Reserve>)session.getAttribute("afterTakeLesson");
 	Member member = (Member)session.getAttribute("member");
+	String updateMessage = (String)session.getAttribute("updateMessage");
 	String cancelMessage = (String)session.getAttribute("cancelMessage");
 	String fillOutMessage = (String)session.getAttribute("fillOutMessage");
 
@@ -25,21 +26,34 @@
 </tr>
 </table>
 </div>
-<div style="text-align:center;"><strong>会員情報変更</strong></div>
-<div style="text-align:center;">会員情報の変更が可能です</div>
+<div style="text-align:center;"><strong>パスワード変更</strong></div>
+<div style="text-align:center;">新旧パスワードを入力して変更ができます</div>
+<%
+	if(updateMessage != null && !updateMessage.equals("")){
+%>
+		<div style="text-align:center;color:#ff0000;"><strong><%= updateMessage %></strong></div>
+		<br>
+<%
+		session.removeAttribute("updateMessage");
+	}
+%>
+
+<br>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-	<tr><th>パスワード変更</th><th style="width:600px"><input type="submit" value="変更する"></th></tr>
+	<tr><th style="width:300px">現在のパスワード</th><td style="width:480px"><input type="text" name="nowPassword" required></td></tr>
+	<tr><th>新しいパスワード</th><td><input type="text" name="newPassword" required></td></tr>
+	<tr><th colspan="2"><input type="submit" value="変更する"></th></tr>
 </table>
-<input type="hidden" name="visit" value="registrationPassword">
+<input type="hidden" name="visit" value="updatePassword">
 </form>
 <hr>
 <div style="text-align:center;"><strong>予約レッスン一覧</strong></div>
 <div style="text-align:center;">前日の18:00までキャンセルが可能です</div>
+<br>
 <%
 	if(cancelMessage != null && !cancelMessage.equals("")){
 %>
-		<br>
 		<div style="text-align:center;color:#ff0000;"><strong><%= cancelMessage %></strong></div>
 		<br>
 <%
@@ -53,7 +67,7 @@
 %>
 		<form action="fc" method="post">
 		<table style="margin:auto;border:1px solid;">
-			<tr><th>レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
+			<tr><th style="width:180px">レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
 			<tr><th>開催日時</th><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
 			<tr><th>インストラクター名</th><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
 			<tr><th colspan="2"><input type="submit" value="キャンセル"></th></tr>
@@ -66,16 +80,17 @@
 	}else{
 %>
 	<div style="text-align:center;">予約しているレッスンはありません</div>
+	<br>
 <%
 	}
 %>
 <hr>
 <div style="text-align:center;"><strong>受講済みレッスン一覧</strong></div>
 <div style="text-align:center;">アンケートにご協力ください</div>
+<br>
 <%
 	if(fillOutMessage != null && !fillOutMessage.equals("")){
 %>
-		<br>
 		<div style="text-align:center;color:#ff0000;"><strong><%= fillOutMessage %></strong></div>
 		<br>
 <%
@@ -89,7 +104,7 @@
 %>
 		<form action="fc" method="post">
 		<table style="margin:auto;border:1px solid;">
-			<tr><th>レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
+			<tr><th style="width:180px">レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
 			<tr><th>開催日時</th><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
 			<tr><th>インストラクター名</th><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
 			<tr><th colspan="2"><input type="submit" value="アンケート入力"></th></tr>
@@ -102,6 +117,7 @@
 	}else{
 %>
 	<div style="text-align:center;">受講したレッスンはありません</div>
+	<br>
 <%
 	}
 %>

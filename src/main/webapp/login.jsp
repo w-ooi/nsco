@@ -37,6 +37,6 @@
 		session.removeAttribute("registrationMessage");
 	}
 %>
-<div style="text-align:center;"><a href="">新規会員登録</a></div>
+<div style="text-align:center;"><form action="fc" method="post"><input type="submit" value="新規会員登録"><input type="hidden" name="visit" value="registrationPage"></form></div>
 </body>
 </html>

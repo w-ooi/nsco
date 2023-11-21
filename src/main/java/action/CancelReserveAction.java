@@ -10,11 +10,12 @@ import javax.servlet.http.HttpSession;
 import beans.Reserve;
 import dao.ConnectionManager;
 import dao.ReserveDAO;
+import orgex.NSCOException;
 
 public class CancelReserveAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		
@@ -31,9 +32,9 @@ public class CancelReserveAction implements IAction {
         	HttpSession session = request.getSession(); 
 			session.setAttribute("canselReserve", reserve);
 			
-			nextPage = "confirmCancel.jsp";
+			nextPage = "confirmCancelReserve.jsp";
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {

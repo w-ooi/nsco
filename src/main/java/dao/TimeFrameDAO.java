@@ -21,7 +21,7 @@ public class TimeFrameDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM time_frame where time_frame_code=?");
+			st = con.prepareStatement("SELECT * FROM time_frame WHERE time_frame_code=?");
 			st.setInt(1, timeFrameCode);
 
 			// SQL文を発行

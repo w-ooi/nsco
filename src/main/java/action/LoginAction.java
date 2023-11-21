@@ -7,7 +7,7 @@ public class LoginAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		request.getSession().setAttribute("page", "index.jsp");
+		request.getSession().setAttribute("page", request.getParameter("page"));
 		return "login.jsp";
 	}
 }

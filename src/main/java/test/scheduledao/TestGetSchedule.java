@@ -2,17 +2,16 @@ package test.scheduledao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import beans.Schedule;
 import dao.ConnectionManager;
 import dao.ScheduleDAO;
 
-public class TestGetAllSchedules {
+public class TestGetSchedule {
 
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<Schedule> scheduleList = null;
+		Schedule schedule = null;
 		
 		try {
         	//データベース接続情報を取得
@@ -21,15 +20,18 @@ public class TestGetAllSchedules {
             //DAOクラスをインスタンス化
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
-            //テスト対象メソッドの呼び出し
-        	scheduleList = scheduleDao.getAllSchedules();
+            //正常系
+        	schedule = scheduleDao.getSchedule(1);
+        	System.out.println("期待する結果:2023-09-29");
+			System.out.println("実行結果:" + schedule.getEventDate());
+			System.out.println();
 			
-			//結果の確認 
-			for(Schedule sc : scheduleList) {
-				System.out.print(sc.getScheduleCode() + ":");
-				System.out.print(sc.getStreamingId() + ":");
-				System.out.println(sc.getStreamingPass());
-			}
+            //異常系
+        	schedule = scheduleDao.getSchedule(6);
+        	System.out.println("期待する結果:null");
+			System.out.println("実行結果:" + schedule);
+			System.out.println();
+			
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

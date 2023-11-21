@@ -22,7 +22,7 @@ public class InstructorDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM instructor where instructor_code=?");
+			st = con.prepareStatement("SELECT * FROM instructor WHERE instructor_code=?");
 			st.setInt(1, instructorCode);
 
 			// SQL文を発行

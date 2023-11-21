@@ -2,17 +2,16 @@ package test.instructordao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import beans.Instructor;
 import dao.ConnectionManager;
 import dao.InstructorDAO;
 
-public class TestGetAllLessonInstructors {
-
+public class TestGetInstructor {
+	
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<Instructor> instructorList = null;
+		Instructor instructor = null;
 		
 		try {
         	//データベース接続情報を取得
@@ -21,15 +20,17 @@ public class TestGetAllLessonInstructors {
             //DAOクラスをインスタンス化
         	InstructorDAO instructorDao = new InstructorDAO(con);
             
-            //テスト対象メソッドの呼び出し
-        	instructorList = instructorDao.getAllInstructors();
+            //正常系
+        	instructor = instructorDao.getInstructor(1);
+        	System.out.println("期待する結果:山田　太郎");
+			System.out.println("実行結果:" + instructor.getInstructorName());
+			System.out.println();
 			
-			//結果の確認 
-			for(Instructor ist : instructorList) {
-				System.out.print(ist.getInstructorCode() + ":");
-				System.out.println(ist.getInstructorName());
-			}
-			System.out.println("件数:" + instructorList.size());
+            //異常系
+			instructor = instructorDao.getInstructor(9);
+        	System.out.println("期待する結果:null");
+			System.out.println("実行結果:" + instructor);
+			System.out.println();
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

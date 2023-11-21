@@ -21,7 +21,7 @@ public class LessonCategoryDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM lesson_category where lesson_category_code=?");
+			st = con.prepareStatement("SELECT * FROM lesson_category WHERE lesson_category_code=?");
 			st.setInt(1, lessonCategoryCode);
 
 			// SQL文を発行

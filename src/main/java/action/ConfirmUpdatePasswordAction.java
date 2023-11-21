@@ -2,39 +2,45 @@ package action;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import beans.Creca;
+import beans.Member;
 import dao.ConnectionManager;
-import dao.CrecaDAO;
+import dao.MemberDAO;
 import orgex.NSCOException;
 
-public class ViewRegistrationPageAction implements IAction {
+public class ConfirmUpdatePasswordAction implements IAction {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
-		List<Creca> crecaList = null;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             // DAOクラスをインスタンス化
-        	CrecaDAO crecaDao = new CrecaDAO(con);
+        	MemberDAO memberDao = new MemberDAO(con);
 	
-			//検索項目用
-        	crecaList = crecaDao.getAllCrecas();
+        	HttpSession session = request.getSession();
+        	Member member = (Member)session.getAttribute("member");
+        	String newPassword = (String)session.getAttribute("newPassword");
+        	
+        	int result = memberDao.updatePassword(member.getMemberNo(), newPassword);
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("crecaList", crecaList);
-			
-			nextPage = "registrationMember.jsp";
+    		if(result == 1) {
+    			member.setPassword(newPassword);
+    			session.setAttribute("member", member);
+				session.setAttribute("updateMessage", "パスワードを変更しました");
+    		}else {
+    			session.setAttribute("updateMessage", "パスワードを変更できませんでした");
+    		}
+				
+			nextPage = "myPage.jsp";
 		}catch (SQLException e) {
 			throw new NSCOException(e.getMessage());
         }finally {
@@ -46,7 +52,7 @@ public class ViewRegistrationPageAction implements IAction {
 				}
         	}
         }
-
+		
 		return nextPage;
 	}
 }

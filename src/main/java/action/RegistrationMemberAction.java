@@ -11,11 +11,12 @@ import beans.Member;
 import dao.ConnectionManager;
 import dao.CrecaDAO;
 import dao.MemberDAO;
+import orgex.NSCOException;
 
 public class RegistrationMemberAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		
@@ -39,14 +40,25 @@ public class RegistrationMemberAction implements IAction {
         	CrecaDAO crecaDao = new CrecaDAO(con);
 			
 			//ニックネーム重複チェック
-			boolean result = memberDao.checkDuplicateNickname(nickname);
+			boolean resultNickname = memberDao.checkDuplicateNickname(nickname);
 			
-			if(result) {
-				nextPage = "confirmRegistration.jsp";
-			}else {
+			if(!resultNickname) {
 				nextPage = "registrationMember.jsp";
-				request.getSession().setAttribute("registrationMessage", "ニックネームが重複しています<br>別のニックネームを登録してください");
+				request.getSession().setAttribute("registrationNickNameMessage", "ニックネームが重複しています<br>別のニックネームを登録してください");
 				nickname = "";
+			}
+
+			//メールアドレス重複チェック
+			boolean resultEmail = memberDao.checkDuplicateEmail(email);
+			
+			if(!resultEmail) {
+				nextPage = "registrationMember.jsp";
+				request.getSession().setAttribute("registrationEmailMessage", "メールアドレスが重複しています<br>別のニックネームを登録してください");
+				email = "";
+			}
+
+			if(resultNickname && resultEmail) {
+				nextPage = "confirmRegistrationMember.jsp";
 			}
 			
 			//クレカ情報取得
@@ -56,7 +68,7 @@ public class RegistrationMemberAction implements IAction {
 					nickname, password, creca, crecaNo, creacaExpiration); 
 			request.getSession().setAttribute("registrationMember", member);
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {
@@ -69,5 +81,4 @@ public class RegistrationMemberAction implements IAction {
 		
 		return nextPage;
 	}
-
 }

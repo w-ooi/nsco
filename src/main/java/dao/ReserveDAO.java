@@ -25,7 +25,7 @@ public class ReserveDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM reserve where reserve_code=?");
+			st = con.prepareStatement("SELECT * FROM reserve WHERE reserve_code=?");
 			st.setInt(1, reserveCode);
 
 			// SQL文を発行
@@ -59,48 +59,6 @@ public class ReserveDAO {
 		return reserve;
 	}
 
-	public ArrayList<Reserve> getAllReserves() throws SQLException {
-		ArrayList<Reserve> list = new ArrayList<Reserve>();
-		PreparedStatement st = null;
-
-		try {
-			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM reserve");
-
-			// SQL文を発行
-			ResultSet rs = st.executeQuery();
-
-			MemberDAO memberDao = new MemberDAO(con);
-			ScheduleDAO scheduleDao = new ScheduleDAO(con);
-
-			// 結果を参照
-			while (rs.next()) {
-				int reserveCode = rs.getInt("reserve_code");
-				String memberNo = rs.getString("member_no");
-				Member member = memberDao.getMember(memberNo);
-				int scheduleCode = rs.getInt("schedule_code");
-				Schedule schedule = scheduleDao.getSchedule(scheduleCode);
-				int attendanceFlag = rs.getInt("attendance_flag");
-				int cancelFlag = rs.getInt("cancel_flag");
-				int lessonEvaluation = rs.getInt("lesson_evaluation");
-				int instructorEvaluation = rs.getInt("instructor_evaluation");
-
-				Reserve reserve = new Reserve(reserveCode, member, schedule, attendanceFlag, cancelFlag,
-						lessonEvaluation, instructorEvaluation);
-
-				list.add(reserve);
-			}
-		} finally {
-			// リソースの解放
-			if (st != null) {
-				st.close();
-			}
-		}
-
-		// リストを返却
-		return list;
-	}
-
 	//予約する
 	public int setReserve(String memberNo, int scheduleCode) throws SQLException {
 		int intResult = 0;
@@ -131,8 +89,9 @@ public class ReserveDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=0");
-
+			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=0 AND cancel_flag=0");
+			st.setString(1, memberNo);
+			
 			// SQL文を発行
 			ResultSet rs = st.executeQuery();
 
@@ -174,7 +133,8 @@ public class ReserveDAO {
 		try {
 			// PreparedStatementの取得
 			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=1");
-
+			st.setString(1, memberNo);
+			
 			// SQL文を発行
 			ResultSet rs = st.executeQuery();
 

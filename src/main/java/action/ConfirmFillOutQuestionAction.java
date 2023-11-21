@@ -9,11 +9,12 @@ import javax.servlet.http.HttpSession;
 
 import dao.ConnectionManager;
 import dao.ReserveDAO;
+import orgex.NSCOException;
 
-public class ConfirmCancelAction implements IAction {
+public class ConfirmFillOutQuestionAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		
@@ -25,18 +26,21 @@ public class ConfirmCancelAction implements IAction {
         	ReserveDAO reserveDao = new ReserveDAO(con);
 	
     		int reserveCode = Integer.parseInt(request.getParameter("reserveCode"));
-    		int result = reserveDao.cancelReserve(reserveCode);
+    		int lessonEvaluation = Integer.parseInt(request.getParameter("lessonEvaluation"));
+    		int instructorEvaluation = Integer.parseInt(request.getParameter("instructorEvaluation"));
+    		
+    		int result = reserveDao.updateEvaluation(reserveCode, lessonEvaluation, instructorEvaluation);
 			
         	HttpSession session = request.getSession(); 
     		if(result == 1) {
-				session.setAttribute("cancelMessage", "レッスンをキャンセルしました");
+				session.setAttribute("fillOutMessage", "アンケートを入力しました");
     		}else {
-    			session.setAttribute("cancelMessage", "レッスンをキャンセルできませんでした");
+    			session.setAttribute("fillOutMessage", "アンケートを入力できませんでした");
     		}
 				
-			nextPage = "mypage.jsp";
+			nextPage = "myPage.jsp";
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {

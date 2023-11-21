@@ -10,11 +10,12 @@ import javax.servlet.http.HttpSession;
 import beans.Member;
 import dao.ConnectionManager;
 import dao.MemberDAO;
+import orgex.NSCOException;
 
-public class ConfirmRegistrationAction implements IAction {
+public class ConfirmRegistrationMemberAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		
@@ -35,9 +36,9 @@ public class ConfirmRegistrationAction implements IAction {
     			session.setAttribute("registrationMessage", "会員情報を登録できませんでした");
     		}
 				
-			nextPage = "logion.jsp";
+			nextPage = "login.jsp";
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {

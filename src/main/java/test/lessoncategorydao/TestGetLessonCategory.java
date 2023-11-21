@@ -2,34 +2,35 @@ package test.lessoncategorydao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import beans.LessonCategory;
 import dao.ConnectionManager;
 import dao.LessonCategoryDAO;
 
-public class TestGetAllLessonCategories {
+public class TestGetLessonCategory {
 
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<LessonCategory> lessonCategoryList = null;
+		LessonCategory lessonCategory = null;
 		
 		try {
         	//データベース接続情報を取得
         	con = ConnectionManager.getConnection();
 
             //DAOクラスをインスタンス化
-            LessonCategoryDAO lessonCategoryDao = new LessonCategoryDAO(con);
+        	LessonCategoryDAO lessonCategoryDao = new LessonCategoryDAO(con);
             
-            //テスト対象メソッドの呼び出し
-			lessonCategoryList = lessonCategoryDao.getAllLessonCategories();
+            //正常系
+        	lessonCategory = lessonCategoryDao.getLessonCategory(1);
+        	System.out.println("期待する結果:ヨガ");
+			System.out.println("実行結果:" + lessonCategory.getLessonCategoryName());
+			System.out.println();
 			
-			//結果の確認 
-			for(LessonCategory lc : lessonCategoryList) {
-				System.out.print(lc.getLessonCategoryCode() + ":");
-				System.out.println(lc.getLessonCategoryName());
-			}
-			System.out.println("件数:" + lessonCategoryList.size());
+            //異常系
+			lessonCategory = lessonCategoryDao.getLessonCategory(8);
+        	System.out.println("期待する結果:null");
+			System.out.println("実行結果:" + lessonCategory);
+			System.out.println();
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

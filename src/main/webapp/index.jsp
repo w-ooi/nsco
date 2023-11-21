@@ -28,7 +28,7 @@
 <%
 	if(member == null){
 %>
-		<td><form action="fc" method="post"><input type="submit" value="新規会員登録"><input type="hidden" name="visit" value="registrationPage"></td>
+		<td><form action="fc" method="post"><input type="submit" value="新規会員登録"><input type="hidden" name="visit" value="registrationPage"></form></td>
 		<td><form action="fc" method="post"><input type="submit" value="ログイン"><input type="hidden" name="visit" value="login"><input type="hidden" name="page" value="index.jsp"></form></td>
 <%
 	}else{

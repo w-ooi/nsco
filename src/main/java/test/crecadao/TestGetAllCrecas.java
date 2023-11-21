@@ -9,7 +9,6 @@ import dao.ConnectionManager;
 import dao.CrecaDAO;
 
 public class TestGetAllCrecas {
-
 	public static void main(String[] args) {
 		Connection con = null;
 		ArrayList<Creca> crecaList = null;
@@ -24,11 +23,12 @@ public class TestGetAllCrecas {
             //テスト対象メソッドの呼び出し
         	crecaList = crecaDao.getAllCrecas();
 			
-			//結果の確認 
+			//結果の確認
 			for(Creca cr : crecaList) {
 				System.out.print(cr.getCrecaCompId() + ":");
 				System.out.println(cr.getCrecaCompName());
 			}
+			System.out.println("件数:" + crecaList.size());
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

@@ -44,9 +44,12 @@
 <input type="hidden" name="visit" value="confirmFillOut">
 <input type="hidden" name="reserveCode" value="<%= reserve.getReserveCode() %>">
 </form>
+<br>
+<div style="text-align:center;">
 <form action="fc" method="post">
 <input type="submit" value="マイページへ戻る">
 <input type="hidden" name="visit" value="myPage">
 </form>
+</div>
 </body>
 </html>

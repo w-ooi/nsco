@@ -2,17 +2,16 @@ package test.reservedao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import beans.Reserve;
 import dao.ConnectionManager;
 import dao.ReserveDAO;
 
-public class TestGetAllReserves {
+public class TestGetReserve {
 
 	public static void main(String[] args) {
 		Connection con = null;
-		ArrayList<Reserve> reserveList = null;
+		Reserve reserve = null;
 		
 		try {
         	//データベース接続情報を取得
@@ -21,15 +20,18 @@ public class TestGetAllReserves {
             //DAOクラスをインスタンス化
         	ReserveDAO reserveDao = new ReserveDAO(con);
             
-            //テスト対象メソッドの呼び出し
-        	reserveList = reserveDao.getAllReserves();
+            //正常系
+        	reserve = reserveDao.getReserve(1);
+        	System.out.println("期待する結果:2018100010");
+			System.out.println("実行結果:" + reserve.getMember().getMemberNo());
+			System.out.println();
 			
-			//結果の確認 
-			for(Reserve rsv : reserveList) {
-				System.out.print(rsv.getReserveCode() + ":");
-				System.out.print(rsv.getLessonEvaluation() + ":");
-				System.out.println(rsv.getInstructorEvaluation());
-			}
+            //異常系
+        	reserve = reserveDao.getReserve(6);
+        	System.out.println("期待する結果:null");
+			System.out.println("実行結果:" + reserve);
+			System.out.println();
+			
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {

@@ -11,11 +11,12 @@ import javax.servlet.http.HttpSession;
 import beans.Schedule;
 import dao.ConnectionManager;
 import dao.ScheduleDAO;
+import orgex.NSCOException;
 
 public class ScheduleSearchByTimeFrameAction implements IAction {
 
 	@Override
-	public String execute(HttpServletRequest request, HttpServletResponse response) {
+	public String execute(HttpServletRequest request, HttpServletResponse response) throws NSCOException {
 		String nextPage = "error.jsp";
 		Connection con = null;
 		List<Schedule> scheduleList = null;
@@ -37,7 +38,7 @@ public class ScheduleSearchByTimeFrameAction implements IAction {
 			
 			nextPage = "searchResult.jsp";
 		}catch (SQLException e) {
-            e.printStackTrace();
+			throw new NSCOException(e.getMessage());
         }finally {
         	if(con != null) {
         		try {
