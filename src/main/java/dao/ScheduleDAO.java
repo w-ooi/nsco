@@ -71,7 +71,7 @@ public class ScheduleDAO {
     	//現在日時を取得
 		Calendar clNow = Calendar.getInstance();
 
-		int nowMonth = clNow.get(Calendar.DATE)+1;	//現在月
+		int nowMonth = clNow.get(Calendar.MONTH)+1;	//現在月
 		int nowDate = clNow.get(Calendar.DATE);	//現在日
 		int nowHour = clNow.get(Calendar.HOUR_OF_DAY);	//現在時間
 
@@ -92,10 +92,11 @@ public class ScheduleDAO {
 		//15日までなら当月分を、16日以降なら当月分と翌月分を表示
 		if(nowDate <= 15) {
 			clCompEnd.set(Calendar.MONTH, nowMonth+1);
+			clCompEnd.set(Calendar.DATE, 1);
 		}else {
 			clCompEnd.set(Calendar.MONTH, nowMonth+2);
+			clCompEnd.set(Calendar.DATE, 1);
 		}
-
 		
 		for(Schedule schedule : list) {
 			//文字型からCalendar型へ変換
@@ -132,7 +133,7 @@ public class ScheduleDAO {
 
 		if(!code.equals("all")) {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT schedule_code,s.lesson_code,event_date,time_frame_code,instructor_code,streaming_id,streaming_pass,cancel_flag,lesson_category_code FROM schedule s INNER JOIN lesson l ON s.lesson_code=l.lesson_code WHERE s.lesson_code=?");
+			st = con.prepareStatement("SELECT schedule_code,s.lesson_code,event_date,time_frame_code,instructor_code,streaming_id,streaming_pass,cancel_flag,lesson_category_code FROM schedule s INNER JOIN lesson l ON s.lesson_code=l.lesson_code WHERE l.lesson_category_code=?");
 			st.setString(1, code);
 		}else {
 			st = con.prepareStatement("SELECT * FROM schedule");

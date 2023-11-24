@@ -24,9 +24,9 @@
 <div style="text-align:center;">次のレッスンをキャンセルします</div>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-	<tr><th>レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
-	<tr><th>開催日時</th><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
-	<tr><th>インストラクター名</th><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
+	<tr><td style="width:180px;text-align:right;"><strong>レッスン名</strong></td><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
+	<tr><td style="width:180px;text-align:right;"><strong>開催日時</strong></td><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
+	<tr><td style="width:180px;text-align:right;"><strong>インストラクター名</strong></td><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
 	<tr><th colspan="2"><input type="submit" value="キャンセルの確定"></th></tr>
 </table>
 <input type="hidden" name="visit" value="confirmCancelReserve">

@@ -41,8 +41,8 @@
 <br>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-	<tr><th style="width:300px">現在のパスワード</th><td style="width:480px"><input type="text" name="nowPassword" required></td></tr>
-	<tr><th>新しいパスワード</th><td><input type="text" name="newPassword" required></td></tr>
+	<tr><td style="width:300px;text-align:right;"><strong>現在のパスワード</strong></td><td style="width:480px"><input type="text" name="nowPassword" required></td></tr>
+	<tr><td style="text-align:right;"><strong>新しいパスワード</strong></td><td><input type="text" name="newPassword" required></td></tr>
 	<tr><th colspan="2"><input type="submit" value="変更する"></th></tr>
 </table>
 <input type="hidden" name="visit" value="updatePassword">
@@ -67,9 +67,9 @@
 %>
 		<form action="fc" method="post">
 		<table style="margin:auto;border:1px solid;">
-			<tr><th style="width:180px">レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
-			<tr><th>開催日時</th><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
-			<tr><th>インストラクター名</th><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
+			<tr><td style="width:180px;text-align:right;"><strong>レッスン名</strong></td><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
+			<tr><td style="width:180px;text-align:right;"><strong>開催日時</strong></td><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
+			<tr><td style="width:180px;text-align:right;"><strong>インストラクター名</strong></td><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
 			<tr><th colspan="2"><input type="submit" value="キャンセル"></th></tr>
 		</table>
 		<input type="hidden" name="visit" value="cancelReserve">
@@ -104,9 +104,9 @@
 %>
 		<form action="fc" method="post">
 		<table style="margin:auto;border:1px solid;">
-			<tr><th style="width:180px">レッスン名</th><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
-			<tr><th>開催日時</th><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
-			<tr><th>インストラクター名</th><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
+			<tr><td style="width:180px;text-align:right;"><strong>レッスン名</strong></td><td style="width:600px"><%= reserve.getSchedule().getLesson().getLessonName() %></td></tr>
+			<tr><td style="width:180px;text-align:right;"><strong>開催日時</strong></td><td><%= reserve.getSchedule().getEventDate() %>&nbsp;<%= reserve.getSchedule().getTimeFrame().getStartTime() %>&nbsp;～&nbsp;<%= reserve.getSchedule().getTimeFrame().getEndTime() %></td></tr>
+			<tr><td style="width:180px;text-align:right;"><strong>インストラクター名</strong></td><td><%= reserve.getSchedule().getInstructor().getInstructorName() %></td></tr>
 			<tr><th colspan="2"><input type="submit" value="アンケート入力"></th></tr>
 		</table>
 		<input type="hidden" name="visit" value="fillOutQuestion">

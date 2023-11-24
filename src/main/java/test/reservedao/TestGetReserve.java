@@ -27,7 +27,7 @@ public class TestGetReserve {
 			System.out.println();
 			
             //異常系
-        	reserve = reserveDao.getReserve(6);
+        	reserve = reserveDao.getReserve(0);
         	System.out.println("期待する結果:null");
 			System.out.println("実行結果:" + reserve);
 			System.out.println();

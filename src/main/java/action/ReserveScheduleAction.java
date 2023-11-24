@@ -2,11 +2,14 @@ package action;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import beans.Member;
+import beans.Reserve;
 import dao.ConnectionManager;
 import dao.ReserveDAO;
 import orgex.NSCOException;
@@ -36,8 +39,11 @@ public class ReserveScheduleAction implements IAction {
 				
 				int intResult = reserveDao.setReserve(member.getMemberNo(), scheduleCode);
 				
+				HttpSession session = request.getSession();
 				if(intResult == 1) {
-					request.setAttribute("reserveMessage", "予約に成功しました");
+					session.setAttribute("reserveMessage", "予約に成功しました");
+					List<Reserve> reserveList = reserveDao.getBeforeTakeLessonReserves(member.getMemberNo());
+					session.setAttribute("reserveList", reserveList);
 				}else {
 					request.setAttribute("reserveMessage", "予約に失敗しました");
 				}

@@ -114,6 +114,16 @@ public class ReserveDAO {
 
 				list.add(reserve);
 			}
+
+			//開催日の昇順でソート
+			Collections.sort(list, new Comparator<Reserve>() {
+				@Override
+				public int compare(Reserve reserveFirst, Reserve reserveSecond) {
+
+					return reserveFirst.getSchedule().getEventDate().compareTo(reserveSecond.getSchedule().getEventDate());
+				}
+			});
+		
 		} finally {
 			// リソースの解放
 			if (st != null) {
@@ -132,7 +142,7 @@ public class ReserveDAO {
 
 		try {
 			// PreparedStatementの取得
-			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=1");
+			st = con.prepareStatement("SELECT * FROM reserve WHERE member_no=? AND attendance_flag=1 ORDER BY reserve_code DESC LIMIT 30");
 			st.setString(1, memberNo);
 			
 			// SQL文を発行
@@ -141,8 +151,6 @@ public class ReserveDAO {
 			MemberDAO memberDao = new MemberDAO(con);
 			ScheduleDAO scheduleDao = new ScheduleDAO(con);
 			
-			ArrayList<Reserve> tmpList = new ArrayList<Reserve>();
-
 			// 結果を参照
 			while (rs.next()) {
 				int reserveCode = rs.getInt("reserve_code");
@@ -157,25 +165,16 @@ public class ReserveDAO {
 				Reserve reserve = new Reserve(reserveCode, member, schedule, attendanceFlag, cancelFlag,
 						lessonEvaluation, instructorEvaluation);
 
-				tmpList.add(reserve);
+				list.add(reserve);
 				
 				//開催日の降順でソート
-				Collections.sort(tmpList, new Comparator<Reserve>() {
+				Collections.sort(list, new Comparator<Reserve>() {
 					@Override
 					public int compare(Reserve reserveFirst, Reserve reserveSecond) {
 
 						return reserveSecond.getSchedule().getEventDate().compareTo(reserveFirst.getSchedule().getEventDate());
 					}
 				});
-				
-				//最大30件
-				if(tmpList.size() > 30) {
-					for(int i = 0; i < 30; i++) {
-						list.add(tmpList.get(i));
-					}
-				}else {
-					list = tmpList; 
-				}
 			}
 		} finally {
 			// リソースの解放

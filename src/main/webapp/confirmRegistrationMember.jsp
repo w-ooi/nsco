@@ -22,16 +22,16 @@
 <div style="text-align:center;">次の会員情報を登録します</div>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:180px;">氏名（姓）</th><td><%= member.getNameSei() %></td></tr>
-<tr><th style="width:180px;">氏名（名）</th><td><%= member.getNameMei() %></td></tr>
-<tr><th style="width:180px;">ふりがな（姓）</th><td><%= member.getKanaSei() %></td></tr>
-<tr><th style="width:180px;">ふりがな（名）</th><td><%= member.getKanaMei() %></td></tr>
-<tr><th style="width:180px;">メールアドレス</th><td><%= member.getEmail() %></td></tr>
-<tr><th style="width:180px;">ニックネーム</th><td><%= member.getNickname() %></td></tr>
-<tr><th style="width:180px;">パスワード</th><td><%= member.getPassword() %></td></tr>
-<tr><th style="width:180px;">カード会社</th><td><%= member.getCreca().getCrecaCompName() %></td></tr>
-<tr><th style="width:180px;">カード番号</th><td><%= member.getCrecaNo() %></td></tr>
-<tr><th style="width:180px;">カード期限</th><td><%= member.getCreacaExpiration() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>氏名（姓）</strong></td><td><%= member.getNameSei() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>氏名（名）</strong></td><td><%= member.getNameMei() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>ふりがな（姓）</strong></td><td><%= member.getKanaSei() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>ふりがな（名）</strong></td><td><%= member.getKanaMei() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>メールアドレス</strong></td><td><%= member.getEmail() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>ニックネーム</strong></td><td><%= member.getNickname() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>パスワード</strong></td><td><%= member.getPassword() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>カード会社</strong></td><td><%= member.getCreca().getCrecaCompName() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>カード番号</strong></td><td><%= member.getCrecaNo() %></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>カード期限</strong></td><td><%= member.getCreacaExpiration() %></td></tr>
 <tr><th colspan="2"><input type="submit" value="会員登録の確定"></th></tr>
 </table>
 <input type="hidden" name="visit" value="confirmRegistrationMember">

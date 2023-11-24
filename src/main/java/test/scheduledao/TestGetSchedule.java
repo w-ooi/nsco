@@ -22,12 +22,12 @@ public class TestGetSchedule {
             
             //正常系
         	schedule = scheduleDao.getSchedule(1);
-        	System.out.println("期待する結果:2023-09-29");
+        	System.out.println("期待する結果:2023-09-28");
 			System.out.println("実行結果:" + schedule.getEventDate());
 			System.out.println();
 			
             //異常系
-        	schedule = scheduleDao.getSchedule(6);
+        	schedule = scheduleDao.getSchedule(0);
         	System.out.println("期待する結果:null");
 			System.out.println("実行結果:" + schedule);
 			System.out.println();

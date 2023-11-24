@@ -47,7 +47,7 @@
 <div style="text-align:center;">次のいずれかの条件で検索ができます</div>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:180px;">カテゴリ</th><td colspan="2" style="width:300px;"><select name="code">
+<tr><td style="width:180px;text-align:right;"><strong>カテゴリ</strong></td><td colspan="2" style="width:300px;"><select name="code">
 <option value="all">すべて</option>
 <%
 	for(LessonCategory category:lessonCategoryList){
@@ -64,7 +64,7 @@
 <br>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:177px;">日時</th><td style="width:150px;"><input type="date" name="date" required></td><td style="width:150px;"><select name="code">
+<tr><td style="width:180px;text-align:right;"><strong>日時</strong></td><td style="width:150px;"><input type="date" name="date" required></td><td style="width:150px;"><select name="code">
 <option value="all">すべて</option>
 <%
 	for(TimeFrame timeFrame:timeFrameList){
@@ -81,7 +81,7 @@
 <br>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:180px;">インストラクター</th><td colspan="2" style="width:300px;"><select name="code">
+<tr><td style="width:180px;text-align:right;"><strong>インストラクター</strong></td><td colspan="2" style="width:300px;"><select name="code">
 <option value="all">すべて</option>
 <%
 	for(Instructor instructor:instructorList){
