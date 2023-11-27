@@ -49,25 +49,25 @@
 
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:180px;">氏名（姓）</th><td><input type="text" name="nameSei" required value="<% if(member!=null){ %><%= member.getNameSei() %><% } %>"></td></tr>
-<tr><th style="width:180px;">氏名（名）</th><td><input type="text" name="nameMei" required value="<% if(member!=null){ %><%= member.getNameMei() %><% } %>"></td></tr>
-<tr><th style="width:180px;">ふりがな（姓）</th><td><input type="text" name="kanaSei" required value="<% if(member!=null){ %><%= member.getKanaSei() %><% } %>"></td></tr>
-<tr><th style="width:180px;">ふりがな（名）</th><td><input type="text" name="kanaMei" required value="<% if(member!=null){ %><%= member.getKanaMei() %><% } %>"></td></tr>
-<tr><th style="width:180px;">メールアドレス</th><td><input type="email" name="email" required value="<% if(member!=null){ %><%= member.getEmail() %><% } %>"></td></tr>
-<tr><th style="width:180px;">ニックネーム</th><td><input type="text" name="nickName" required value="<% if(member!=null){ %><%= member.getNickname() %><% } %>"></td></tr>
-<tr><th style="width:180px;">パスワード</th><td><input type="text" name="password" required value="<% if(member!=null){ %><%= member.getPassword() %><% } %>"></td></tr>
-<tr><th style="width:180px;">カード会社</th><td><select name="crecaCompId">
+<tr><td style="width:180px;text-align:right;"><strong>氏名（姓）</strong></td><td><input type="text" name="nameSei" required value="<% if(member!=null){ %><%= member.getNameSei() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>氏名（名）</strong></td><td><input type="text" name="nameMei" required value="<% if(member!=null){ %><%= member.getNameMei() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>ふりがな（姓）</strong></td><td><input type="text" name="kanaSei" required value="<% if(member!=null){ %><%= member.getKanaSei() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>ふりがな（名）</strong></td><td><input type="text" name="kanaMei" required value="<% if(member!=null){ %><%= member.getKanaMei() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>メールアドレス</strong></td><td><input type="email" name="email" required value="<% if(member!=null){ %><%= member.getEmail() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>ニックネーム</strong></td><td><input type="text" name="nickName" required value="<% if(member!=null){ %><%= member.getNickname() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>パスワード</strong></td><td><input type="text" name="password" required value="<% if(member!=null){ %><%= member.getPassword() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>カード会社</strong></td><td><select name="crecaCompId">
 <%
 	for(Creca creca:crecaList){
 %>
-		<option value=<%= creca.getCrecaCompId() %> <% if(member!=null && (member.getCreca().getCrecaCompId() == creca.getCrecaCompId())){ %>selected<% } %>><%= creca.getCrecaCompName() %></option>
+		<option value="<%= creca.getCrecaCompId() %>" <% if(member!=null && (member.getCreca().getCrecaCompId() == creca.getCrecaCompId())){ %>selected<% } %>><%= creca.getCrecaCompName() %></option>
 <%
 	}
 %>
 </select></td>
 </tr>
-<tr><th style="width:180px;">カード番号</th><td><input type="text" name="crecaNo" required value=<% if(member!=null){ %><%= member.getCrecaNo() %><% } %>></td></tr>
-<tr><th style="width:180px;">カード期限</th><td><input type="text" name="creacaExpiration" required value=<% if(member!=null){ %><%= member.getCreacaExpiration() %><% } %>></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>カード番号</strong></td><td><input type="text" name="crecaNo" required placeholder="数値16桁(ハイフン無し)" value="<% if(member!=null){ %><%= member.getCrecaNo() %><% } %>"></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>カード期限</strong></td><td><input type="text" name="creacaExpiration" required placeholder="MM/YY" value="<% if(member!=null){ %><%= member.getCreacaExpiration() %><% } %>"></td></tr>
 <tr><th colspan="2"><input type="submit" value="会員登録"></th></tr>
 </table>
 <input type="hidden" name="visit" value="registrationMember">

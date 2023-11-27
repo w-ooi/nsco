@@ -21,7 +21,7 @@
 <table style="margin:auto;border-collapse:separate;border-spacing:20px;">
 <tr>
 <td><a href="index.jsp"><img src="images/logo3.png" width="30%" height="30%"></a></td>
-	<td><form action="fc" method="post"><input type="submit" value="マイページ"><input type="hidden" name="visit" value="mypage"></form></td>
+	<td><form action="fc" method="post"><input type="submit" value="マイページ"><input type="hidden" name="visit" value="myPage"></form></td>
 	<td><form action="fc" method="post"><input type="submit" value="ログアウト"><input type="hidden" name="visit" value="logout"></form></td>
 </tr>
 </table>
@@ -121,6 +121,12 @@
 <%
 	}
 %>
-
+<br>
+<div style="text-align:center;">
+<form action="fc" method="post">
+<input type="submit" value="トップページへ戻る">
+<input type="hidden" name="visit" value="topPage">
+</form>
+</div>
 </body>
 </html>

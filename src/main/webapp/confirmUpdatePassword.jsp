@@ -24,11 +24,13 @@
 <div style="text-align:center;">次のパスワードで変更します</div>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-	<tr><th style="width:300px">現在のパスワード</th><td style="width:480px"><%= nowPassword %></td></tr>
-	<tr><th>新しいパスワード</th><td><%= newPassword %></td></tr>
+	<tr><td style="width:300px;text-align:right;"><strong>現在のパスワード</strong></td><td style="width:480px"><%= nowPassword %></td></tr>
+	<tr><td style="width:300px;text-align:right;"><strong>新しいパスワード</strong></td><td><%= newPassword %></td></tr>
+	<tr><th colspan="2"><input type="submit" value="パスワード変更の確定"></th></tr>
 </table>
 <input type="hidden" name="visit" value="confirmUpdatePassword">
 </form>
+<br>
 <div style="text-align:center;">
 <form action="fc" method="post">
 <input type="submit" value="マイページへ戻る">

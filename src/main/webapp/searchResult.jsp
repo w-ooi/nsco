@@ -113,12 +113,12 @@
 		<div class="result">
 		<form action="fc" method="post">
 		<table>
-		<tr><th>カテゴリ</th><td style="width:600px"><%= schedule.getLesson().getLessonCategory().getLessonCategoryName() %></td><td rowspan="5"><img src=images/<%= schedule.getInstructor().getImageFile() %>></td></tr>
-		<tr><th>レッスン名</th><td><%= schedule.getLesson().getLessonName() %></td></tr>
-		<tr><th>レッスン詳細</th><td><%= schedule.getLesson().getDescription() %></td></tr>
-		<tr><th>開催日時</th><td><%= schedule.getEventDate() %>&nbsp;
+		<tr><td style="width:180px;text-align:right;"><strong>カテゴリ</strong></td><td style="width:600px"><%= schedule.getLesson().getLessonCategory().getLessonCategoryName() %></td><td rowspan="5"><img src=images/<%= schedule.getInstructor().getImageFile() %>></td></tr>
+		<tr><td style="width:180px;text-align:right;"><strong>レッスン名</strong></td><td><%= schedule.getLesson().getLessonName() %></td></tr>
+		<tr><td style="width:180px;text-align:right;"><strong>レッスン詳細</strong></td><td><%= schedule.getLesson().getDescription() %></td></tr>
+		<tr><td style="width:180px;text-align:right;"><strong>開催日時</strong></td><td><%= schedule.getEventDate() %>&nbsp;
 		<%= schedule.getTimeFrame().getStartTime() %>～<%= schedule.getTimeFrame().getEndTime() %></td></tr>
-		<tr><th>インストラクター</th><td><%= schedule.getInstructor().getInstructorName() %></td></tr>
+		<tr><td style="width:180px;text-align:right;"><strong>インストラクター</strong></td><td><%= schedule.getInstructor().getInstructorName() %></td></tr>
 		<tr><th colspan="3">
 <%
 		boolean reserveFlag = false;

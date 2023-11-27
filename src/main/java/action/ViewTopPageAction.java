@@ -46,6 +46,8 @@ public class ViewTopPageAction implements IAction {
 			session.setAttribute("instructorList", instructorList);
 			session.setAttribute("timeFrameList", timeFrameList);
 			
+			session.removeAttribute("registrationMember");
+			
 			nextPage = "index.jsp";
 		}catch (SQLException e) {
 			throw new NSCOException(e.getMessage());

@@ -36,6 +36,7 @@
 </table>
 <input type="hidden" name="visit" value="confirmRegistrationMember">
 </form>
+<br>
 <div style="text-align:center;">
 <form action="fc" method="post">
 <input type="submit" value="新規会員登録ページへ戻る">

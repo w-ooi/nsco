@@ -20,8 +20,8 @@
 <div style="text-align:center;"><strong>ログイン</strong></div>
 <form action="fc" method="post">
 <table style="margin:auto;border:1px solid;">
-<tr><th style="width:180px;">会員番号</th><td><input type="text" name="memberNo" required></td></tr>
-<tr><th style="width:180px;">パスワード</th><td><input type="password" name="password" required></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>会員番号</strong></td><td><input type="text" name="memberNo" required></td></tr>
+<tr><td style="width:180px;text-align:right;"><strong>パスワード</strong></td><td><input type="password" name="password" required></td></tr>
 <tr><th colspan="2"><input type="submit" value="ログイン"></th></tr>
 </table>
 <input type="hidden" name="visit" value="authenticationLogin">

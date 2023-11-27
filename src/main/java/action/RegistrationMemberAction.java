@@ -25,9 +25,9 @@ public class RegistrationMemberAction implements IAction {
 		String kanaSei = request.getParameter("kanaSei");
 		String kanaMei = request.getParameter("kanaMei");
 		String email = request.getParameter("email");
-		String nickname = request.getParameter("nickname");
+		String nickname = request.getParameter("nickName");
 		String password = request.getParameter("password");
-		int crecaCompId = Integer.parseInt("crecaCompId");
+		int crecaCompId = Integer.parseInt(request.getParameter("crecaCompId"));
 		String crecaNo = request.getParameter("crecaNo");
 		String creacaExpiration = request.getParameter("creacaExpiration");
 		
@@ -53,7 +53,7 @@ public class RegistrationMemberAction implements IAction {
 			
 			if(!resultEmail) {
 				nextPage = "registrationMember.jsp";
-				request.getSession().setAttribute("registrationEmailMessage", "メールアドレスが重複しています<br>別のニックネームを登録してください");
+				request.getSession().setAttribute("registrationEmailMessage", "メールアドレスが重複しています<br>別のメールアドレスを登録してください");
 				email = "";
 			}
 

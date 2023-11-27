@@ -71,24 +71,27 @@ public class ScheduleDAO {
     	//現在日時を取得
 		Calendar clNow = Calendar.getInstance();
 
-		int nowMonth = clNow.get(Calendar.MONTH)+1;	//現在月
+		int nowMonth = clNow.get(Calendar.MONTH);	//現在月
 		int nowDate = clNow.get(Calendar.DATE);	//現在日
 		int nowHour = clNow.get(Calendar.HOUR_OF_DAY);	//現在時間
 
-		//現在日時の時と分を0にする
-		clNow.set(clNow.get(Calendar.YEAR),clNow.get(Calendar.MONTH),clNow.get(Calendar.DATE),0,0);
+		//現在日時の時分秒ミリ秒を0にする
+		clNow.set(Calendar.HOUR, 0);
+		clNow.set(Calendar.MINUTE, 0);
+		clNow.set(Calendar.SECOND, 0);
+		clNow.set(Calendar.MILLISECOND, 0);
 
-		//日時比較用のクラスに現在日時コピー
-		Calendar clCompStart = (Calendar) clNow.clone();
-		Calendar clCompEnd = (Calendar) clNow.clone();
-
+		// 比較用のオブジェクトに現在日時をコピー
+		Calendar clCompStart = (Calendar)clNow.clone();
+		Calendar clCompEnd = (Calendar)clNow.clone();
+		
 		//18時以前なら翌日分より、後なら翌々日分より表示
 		if(nowHour <= 18) {	
-			clCompStart.set(Calendar.DATE, nowDate+1);	
+			clCompStart.set(Calendar.DATE, nowDate+1);
 		}else {
 			clCompStart.set(Calendar.DATE, nowDate+2);
 		}
-		
+
 		//15日までなら当月分を、16日以降なら当月分と翌月分を表示
 		if(nowDate <= 15) {
 			clCompEnd.set(Calendar.MONTH, nowMonth+1);
@@ -97,7 +100,7 @@ public class ScheduleDAO {
 			clCompEnd.set(Calendar.MONTH, nowMonth+2);
 			clCompEnd.set(Calendar.DATE, 1);
 		}
-		
+
 		for(Schedule schedule : list) {
 			//文字型からCalendar型へ変換
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -113,7 +116,7 @@ public class ScheduleDAO {
 			// Dateをカレンダーへ
 			Calendar calendarDate = Calendar.getInstance();
 			calendarDate.setTime(eventDate);
-			
+
 			//日時の比較
 			//戻り値が0なら一致、正なら現在日時が指定日時を過ぎている、負なら現在日時は指定日時より前
 			int diffStart = calendarDate.compareTo(clCompStart);
