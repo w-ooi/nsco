@@ -22,7 +22,7 @@ public class TestGetScheduleByTimeFrame {
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
             //正常系
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-01-10", "1");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-01-10", "1", "user");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getEventDate() + " : " + scd.getTimeFrame().getStartTime());
@@ -32,14 +32,14 @@ public class TestGetScheduleByTimeFrame {
 			System.out.println();
 			
             //異常系(存在しない日付)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-30", "1");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-30", "1", "user");
         	
         	System.out.println("期待する件数:0");
         	System.out.println("実行結果の件数:" + scheduleList.size());
 			System.out.println();
 
 			//異常系(存在しない時間枠番号)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-10", "0");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-10", "0", "user");
         	
         	System.out.println("期待する件数:0");
         	System.out.println("実行結果の件数:" + scheduleList.size());
@@ -47,14 +47,14 @@ public class TestGetScheduleByTimeFrame {
 
 			//異常系(日付がnull)
 			/*
-        	scheduleList = scheduleDao.getScheduleByTimeFrame(null, "1");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame(null, "1", "user");
         	
         	System.out.println("期待する件数:例外");
 			*/
 			
 			//異常系(時間枠番号がnull)
 			/*
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-10", null);
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-10", null, "user");
         	
         	System.out.println("期待する件数:例外");
 			*/

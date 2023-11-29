@@ -22,7 +22,7 @@ public class TestGetScheduleByLessonCategory {
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
             //正常系
-        	scheduleList = scheduleDao.getScheduleByLessonCategory("2");
+        	scheduleList = scheduleDao.getScheduleByLessonCategory("2", "user");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getLesson().getLessonCategory().getLessonCategoryName());
@@ -32,7 +32,7 @@ public class TestGetScheduleByLessonCategory {
 			System.out.println();
 			
             //異常系(存在しない番号)
-        	scheduleList = scheduleDao.getScheduleByLessonCategory("0");
+        	scheduleList = scheduleDao.getScheduleByLessonCategory("0", "user");
         	
         	System.out.println("期待する件数:0");
         	System.out.println("実行結果の件数:" + scheduleList.size());
@@ -40,7 +40,7 @@ public class TestGetScheduleByLessonCategory {
 
 			//異常系(null)
 			/*
-        	scheduleList = scheduleDao.getScheduleByLessonCategory(null);
+        	scheduleList = scheduleDao.getScheduleByLessonCategory(null, "user");
         	
         	System.out.println("期待する件数:例外");
 			*/

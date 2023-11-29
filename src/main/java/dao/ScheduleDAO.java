@@ -11,8 +11,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import beans.Creca;
 import beans.Instructor;
 import beans.Lesson;
+import beans.Member;
 import beans.Schedule;
 import beans.TimeFrame;
 
@@ -130,7 +132,7 @@ public class ScheduleDAO {
 		return newList;
 	}
 
-	public List<Schedule> getScheduleByLessonCategory(String code) throws SQLException {
+	public List<Schedule> getScheduleByLessonCategory(String code, String place) throws SQLException {
 		ArrayList<Schedule> list = new ArrayList<Schedule>();
 		PreparedStatement st = null;
 
@@ -169,10 +171,14 @@ public class ScheduleDAO {
 		}
 
 		// リストを返却
-		return checkDateSchedules(list);
+		if(place.equals("user")) {
+			return checkDateSchedules(list);
+		}else {
+			return list;
+		}
 	}
 
-	public List<Schedule> getScheduleByTimeFrame(String strDate, String code) throws SQLException {
+	public List<Schedule> getScheduleByTimeFrame(String strDate, String code, String place) throws SQLException {
 		ArrayList<Schedule> list = new ArrayList<Schedule>();
 		PreparedStatement st = null;
 
@@ -225,10 +231,14 @@ public class ScheduleDAO {
 		}
 
 		// リストを返却
-		return  checkDateSchedules(list);
+		if(place.equals("user")) {
+			return checkDateSchedules(list);
+		}else {
+			return list;
+		}
 	}
 
-	public List<Schedule> getScheduleByInstructor(String code) throws SQLException {
+	public List<Schedule> getScheduleByInstructor(String code, String place) throws SQLException {
 		ArrayList<Schedule> list = new ArrayList<Schedule>();
 		PreparedStatement st = null;
 
@@ -276,6 +286,168 @@ public class ScheduleDAO {
 		}
 
 		// リストを返却
-		return  checkDateSchedules(list);
+		if(place.equals("user")) {
+			return checkDateSchedules(list);
+		}else {
+			return list;
+		}
+	}
+
+	public boolean checkDuplicateInstructor(String eventDate, int timeFrameCode, int instructorCode) throws SQLException {
+		boolean result = true;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("SELECT * FROM schedule WHERE event_date=? AND time_frame_code=? AND instructor_code=?");
+			st.setDate(1, java.sql.Date.valueOf(eventDate));
+			st.setInt(2, timeFrameCode);
+			st.setInt(3, instructorCode);
+			
+			// SQL文を発行
+			ResultSet rs = st.executeQuery();
+
+			// 結果を参照
+			if (rs.next()) {
+				result = false;
+			}
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+		
+		return result;
+	}
+
+	public int insertSchedule(Schedule schedule) throws SQLException {
+		int intResult = 0;
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("INSERT INTO schedule(lesson_code,event_date,time_frame_code,instructor_code,streaming_id,streaming_pass,cancel_flag) VALUES(?,?,?,?,?,?,?)");
+			
+			st.setInt(1, schedule.getLesson().getLessonCode());
+			st.setDate(2, java.sql.Date.valueOf(schedule.getEventDate()));
+			st.setInt(3, schedule.getTimeFrame().getTimeFrameCode());
+			st.setInt(4, schedule.getInstructor().getInstructorCode());
+			st.setString(5, schedule.getStreamingId());
+			st.setString(6, schedule.getStreamingPass());
+			st.setInt(7, 0);
+			
+			// SQL文を発行
+			intResult = st.executeUpdate();
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+		
+		return intResult;
+	}
+
+	public List<Member> getOutputCsvMember(String scheduleCode) throws SQLException {
+		List<Member> memberList = new ArrayList<Member>();
+		PreparedStatement st = null;
+		PreparedStatement subSt = null;
+
+		try {
+			st = con.prepareStatement("SELECT member_no FROM reserve WHERE schedule_code=? AND cancel_flag=0");
+			st.setInt(1, Integer.parseInt(scheduleCode));
+
+			// SQL文を発行
+			ResultSet rs = st.executeQuery();
+
+			MemberDAO memberDao = new MemberDAO(con);
+			CrecaDAO crecaDao = new CrecaDAO(con);
+			
+			subSt = con.prepareStatement("SELECT * FROM member WHERE member_no=?");
+
+			// 結果を参照
+			while (rs.next()) {
+				String memberNo = rs.getString("member_no");
+				subSt.setString(1, memberNo);
+				
+				ResultSet subRs = subSt.executeQuery();
+				
+				while(subRs.next()) {
+					String nameSei = subRs.getString("name_sei");
+					String nameMei = subRs.getString("name_mei");
+					String kanaSei = subRs.getString("kana_sei");
+					String kanaMei = subRs.getString("kana_mei");
+					String email = subRs.getString("email");
+					String nickname = subRs.getString("nickname");
+					String password = subRs.getString("password");
+					int crecaCompId = subRs.getInt("creca_comp_id");
+					Creca creca = crecaDao.getCreca(crecaCompId);
+					String crecaNo = subRs.getString("creca_no");
+					String crecaExpiration = subRs.getString("creca_expiration");
+
+					Member member = new Member(memberNo,nameSei,nameMei,kanaSei,kanaMei,email,nickname,password,creca,crecaNo,crecaExpiration);
+
+					memberList.add(member);
+				}
+			}
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		// リストを返却
+		return memberList;
+	}
+
+	public List<Schedule> getScheduleByToday() throws SQLException {
+		List<Schedule> list = new ArrayList<Schedule>();
+		PreparedStatement st = null;
+
+		try {
+			// PreparedStatementの取得
+			st = con.prepareStatement("SELECT * FROM schedule WHERE event_date=?");
+			
+			// 現在日の取得
+			Calendar calendar = Calendar.getInstance();
+	        java.sql.Date date = new java.sql.Date(calendar.getTime().getTime());
+			st.setDate(1, date);
+
+			// SQL文を発行
+			ResultSet rs = st.executeQuery();
+
+			LessonDAO lessonDao = new LessonDAO(con);
+			TimeFrameDAO timeFrameDao = new TimeFrameDAO(con);
+			InstructorDAO instructorDao = new InstructorDAO(con);
+
+			// 結果を参照
+			while (rs.next()) {
+				int scheduleCode = rs.getInt("schedule_code");
+				int lessonCode = rs.getInt("lesson_code");
+				Lesson lesson = lessonDao.getLesson(lessonCode);
+				String eventDate = rs.getDate("event_date").toString();
+				int timeFrameCode = rs.getInt("time_frame_code");
+				TimeFrame timeFrame = timeFrameDao.getTimeFrame(timeFrameCode);
+				int instructorCode = rs.getInt("instructor_code");
+				Instructor instructor = instructorDao.getInstructor(instructorCode);
+				String streamingId = rs.getString("streaming_id");
+				String streamingPass = rs.getString("streaming_pass");
+				int cancelFlag = rs.getInt("cancel_flag");
+
+				Schedule schedule = new Schedule(scheduleCode,lesson,eventDate,timeFrame,instructor,streamingId,streamingPass,cancelFlag);
+
+				list.add(schedule);
+			}
+		} finally {
+			// リソースの解放
+			if (st != null) {
+				st.close();
+			}
+		}
+
+		// リストを返却
+		return list;
 	}
 }
