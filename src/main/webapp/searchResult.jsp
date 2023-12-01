@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>NatureSportsClubオンライン配信サイト</title>
-<link rel="stylesheet" href="css/resultSearch.css">
 <%
 	List<LessonCategory> lessonCategoryList = (ArrayList<LessonCategory>)session.getAttribute("lessonCategoryList");
 	List<TimeFrame> timeFrameList = (ArrayList<TimeFrame>)session.getAttribute("timeFrameList");
@@ -110,7 +109,7 @@
 		for(Schedule schedule:scheduleList){
 			if(schedule.getCancelFlag() == 0){
 %>
-		<div class="result">
+		<div>
 		<form action="fc" method="post">
 		<table>
 		<tr><td style="width:180px;text-align:right;"><strong>カテゴリ</strong></td><td style="width:600px"><%= schedule.getLesson().getLessonCategory().getLessonCategoryName() %></td><td rowspan="5"><img src=images/<%= schedule.getInstructor().getImageFile() %>></td></tr>

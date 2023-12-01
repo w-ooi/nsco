@@ -21,8 +21,8 @@ public class TestGetScheduleByTimeFrame {
             //DAOクラスをインスタンス化
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
-            //正常系
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-01-10", "1", "user");
+            //正常系(利用者側)
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "1", "user");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getEventDate() + " : " + scd.getTimeFrame().getStartTime());
@@ -31,20 +31,31 @@ public class TestGetScheduleByTimeFrame {
         	System.out.println("実行結果の件数:" + scheduleList.size());
 			System.out.println();
 			
-            //異常系(存在しない日付)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-30", "1", "user");
+            //正常系(管理者側)
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "1", "headOffice");
         	
-        	System.out.println("期待する件数:0");
+        	for(Schedule scd : scheduleList) {
+				System.out.println(scd.getEventDate() + " : " + scd.getTimeFrame().getStartTime());
+        	}
+        	System.out.println("期待する件数:2");
         	System.out.println("実行結果の件数:" + scheduleList.size());
 			System.out.println();
+			
 
 			//異常系(存在しない時間枠番号)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-10", "0", "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "0", "user");
         	
         	System.out.println("期待する件数:0");
         	System.out.println("実行結果の件数:" + scheduleList.size());
 			System.out.println();
 
+            //異常系(存在しない日付)
+			/*
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-32", "1", "user");
+        	
+        	System.out.println("期待する件数:例外");
+			 */
+			
 			//異常系(日付がnull)
 			/*
         	scheduleList = scheduleDao.getScheduleByTimeFrame(null, "1", "user");
@@ -54,7 +65,7 @@ public class TestGetScheduleByTimeFrame {
 			
 			//異常系(時間枠番号がnull)
 			/*
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2024-02-10", null, "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", null, "user");
         	
         	System.out.println("期待する件数:例外");
 			*/

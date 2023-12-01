@@ -21,13 +21,23 @@ public class TestGetScheduleByInstructor {
             //DAOクラスをインスタンス化
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
-            //正常系
+            //正常系(利用者側)
         	scheduleList = scheduleDao.getScheduleByInstructor("6", "user");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getInstructor().getInstructorName());
         	}
         	System.out.println("期待する件数:2");
+        	System.out.println("実行結果の件数:" + scheduleList.size());
+			System.out.println();
+			
+            //正常系(管理者側)
+        	scheduleList = scheduleDao.getScheduleByInstructor("6", "headOffice");
+        	
+        	for(Schedule scd : scheduleList) {
+				System.out.println(scd.getInstructor().getInstructorName());
+        	}
+        	System.out.println("期待する件数:5");
         	System.out.println("実行結果の件数:" + scheduleList.size());
 			System.out.println();
 			
