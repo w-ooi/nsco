@@ -14,7 +14,7 @@
 	Member member = (Member)session.getAttribute("member");
 	List<Reserve> reserveList = (ArrayList<Reserve>)session.getAttribute("reserveList");
 	String reserveMessage = (String)session.getAttribute("reserveMessage");
-	
+
 %>
 </head>
 <body>
@@ -111,7 +111,7 @@
 %>
 		<div>
 		<form action="fc" method="post">
-		<table>
+		<table style="margin:auto;border:1px solid;">
 		<tr><td style="width:180px;text-align:right;"><strong>カテゴリ</strong></td><td style="width:600px"><%= schedule.getLesson().getLessonCategory().getLessonCategoryName() %></td><td rowspan="5"><img src=images/<%= schedule.getInstructor().getImageFile() %>></td></tr>
 		<tr><td style="width:180px;text-align:right;"><strong>レッスン名</strong></td><td><%= schedule.getLesson().getLessonName() %></td></tr>
 		<tr><td style="width:180px;text-align:right;"><strong>レッスン詳細</strong></td><td><%= schedule.getLesson().getDescription() %></td></tr>
@@ -129,7 +129,7 @@
 				}
 			}
 		}
-		
+
 		if(reserveFlag){
 %>
 			<span>予約済みです</span>
@@ -155,7 +155,7 @@
 	}else{
 %>
 		<div style="text-align:center;">検索結果はありません</div>
-<%		
+<%
 	}
 %>
 </body>

@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>NatureSportsClubオンライン配信サイト</title>
 <%
+	String authenticationMessage = (String)session.getAttribute("authenticationMessage");
 	String registrationMessage = (String)session.getAttribute("registrationMessage");
 %>
 </head>
@@ -28,9 +29,17 @@
 </form>
 <br>
 <%
+	if(authenticationMessage != null && !authenticationMessage.equals("")){
+%>
+		<div style="text-align:center;color:#ff0000;"><strong><%= authenticationMessage %></strong></div>
+		<br>
+<%
+		session.removeAttribute("authenticationMessage");
+	}
+%>
+<%
 	if(registrationMessage != null && !registrationMessage.equals("")){
 %>
-		<br>
 		<div style="text-align:center;color:#ff0000;"><strong><%= registrationMessage %></strong></div>
 		<br>
 <%

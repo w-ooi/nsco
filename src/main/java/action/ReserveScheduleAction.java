@@ -81,8 +81,6 @@ public class ReserveScheduleAction implements IAction {
 					clNow.set(Calendar.DATE, clNow.get(Calendar.DATE)+2);	// 翌々日以降予約可
 				}
 				
-				System.out.println(calendarDate.getTime() + ":" + clNow.getTime());
-				
 				//日時の比較
 				//戻り値が0なら一致、正なら現在日時が指定日時を過ぎている、負なら現在日時は指定日時より前
 				int diff = clNow.compareTo(calendarDate);

@@ -41,9 +41,11 @@ public class AuthenticationLoginAction implements IAction {
 			if(member != null) {
 				List<Reserve> reserveList = reserveDao.getBeforeTakeLessonReserves(member.getMemberNo());
 				session.setAttribute("reserveList", reserveList);
+				nextPage = (String) request.getSession().getAttribute("page");
+			}else {
+				session.setAttribute("authenticationMessage", "会員番号またはパスワードが間違っています");
+				nextPage = "login.jsp";
 			}
-			
-			nextPage = (String) request.getSession().getAttribute("page");
 		}catch (SQLException e) {
             throw new NSCOException(e.getMessage());
         }finally {
