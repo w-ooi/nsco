@@ -22,6 +22,16 @@ public class TestGetScheduleByLessonCategory {
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
             //正常系(利用者側)
+        	scheduleList = scheduleDao.getScheduleByLessonCategory("all", "user");
+        	
+        	for(Schedule scd : scheduleList) {
+				System.out.println(scd.getLesson().getLessonCategory().getLessonCategoryName());
+        	}
+        	System.out.println("期待する件数:6");
+        	System.out.println("実行結果の件数:" + scheduleList.size());
+			System.out.println();
+			
+            //正常系(利用者側)
         	scheduleList = scheduleDao.getScheduleByLessonCategory("2", "user");
         	
         	for(Schedule scd : scheduleList) {

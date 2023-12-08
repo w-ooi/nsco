@@ -30,7 +30,12 @@ public class TestCheckDuplicateInstructor {
         	System.out.println("期待する結果:false");
 			System.out.println("実行結果:" + result);
 			System.out.println();
-			
+
+			//異常系(null)
+			/*
+        	result = scheduleDao.checkDuplicateInstructor(null,1,6);
+        	System.out.println("期待する結果:例外");
+        	*/
 		}catch (SQLException e) {
             e.printStackTrace();
         }finally {
