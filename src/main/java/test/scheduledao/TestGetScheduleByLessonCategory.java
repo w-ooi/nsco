@@ -22,7 +22,7 @@ public class TestGetScheduleByLessonCategory {
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
             //正常系(利用者側)
-        	scheduleList = scheduleDao.getScheduleByLessonCategory("all", "user");
+        	scheduleList = scheduleDao.getScheduleByLessonCategory("all");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getLesson().getLessonCategory().getLessonCategoryName());
@@ -32,7 +32,7 @@ public class TestGetScheduleByLessonCategory {
 			System.out.println();
 			
             //正常系(利用者側)
-        	scheduleList = scheduleDao.getScheduleByLessonCategory("2", "user");
+        	scheduleList = scheduleDao.getScheduleByLessonCategory("2");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getLesson().getLessonCategory().getLessonCategoryName());
@@ -42,7 +42,7 @@ public class TestGetScheduleByLessonCategory {
 			System.out.println();
 			
             //正常系(管理者側)
-        	scheduleList = scheduleDao.getScheduleByLessonCategory("2", "headOffice");
+        	scheduleList = scheduleDao.getScheduleByLessonCategoryForManager("2");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getLesson().getLessonCategory().getLessonCategoryName());
@@ -52,7 +52,7 @@ public class TestGetScheduleByLessonCategory {
 			System.out.println();
 			
             //異常系(存在しない番号)
-        	scheduleList = scheduleDao.getScheduleByLessonCategory("0", "user");
+        	scheduleList = scheduleDao.getScheduleByLessonCategory("0");
         	
         	System.out.println("期待する件数:0");
         	System.out.println("実行結果の件数:" + scheduleList.size());
@@ -60,7 +60,7 @@ public class TestGetScheduleByLessonCategory {
 
 			//異常系(null)
 			/*
-        	scheduleList = scheduleDao.getScheduleByLessonCategory(null, "user");
+        	scheduleList = scheduleDao.getScheduleByLessonCategory(null);
         	
         	System.out.println("期待する件数:例外");
 			*/

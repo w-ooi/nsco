@@ -22,7 +22,7 @@ public class TestGetScheduleByTimeFrame {
         	ScheduleDAO scheduleDao = new ScheduleDAO(con);
             
             //正常系(利用者側)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "1", "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "1");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getEventDate() + " : " + scd.getTimeFrame().getStartTime());
@@ -32,7 +32,7 @@ public class TestGetScheduleByTimeFrame {
 			System.out.println();
 			
             //正常系(管理者側)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "1", "headOffice");
+        	scheduleList = scheduleDao.getScheduleByTimeFrameForManager("2023-12-15", "1");
         	
         	for(Schedule scd : scheduleList) {
 				System.out.println(scd.getEventDate() + " : " + scd.getTimeFrame().getStartTime());
@@ -43,7 +43,7 @@ public class TestGetScheduleByTimeFrame {
 			
 
 			//異常系(存在しない時間枠番号)
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "0", "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", "0");
         	
         	System.out.println("期待する件数:0");
         	System.out.println("実行結果の件数:" + scheduleList.size());
@@ -51,21 +51,21 @@ public class TestGetScheduleByTimeFrame {
 
             //異常系(存在しない日付)
 			/*
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-32", "1", "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-32", "1");
         	
         	System.out.println("期待する件数:例外");
 			 */
 			
 			//異常系(日付がnull)
 			/*
-        	scheduleList = scheduleDao.getScheduleByTimeFrame(null, "1", "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame(null, "1");
         	
         	System.out.println("期待する件数:例外");
 			*/
 			
 			//異常系(時間枠番号がnull)
 			/*
-        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", null, "user");
+        	scheduleList = scheduleDao.getScheduleByTimeFrame("2023-12-15", null);
         	
         	System.out.println("期待する件数:例外");
 			*/
