@@ -23,7 +23,7 @@ public class TestGetMember {
             //正常系
         	member = memberDao.getMember("2018100010");
         	System.out.println("期待する結果:鈴木 博");
-			System.out.println("実行結果:" + member.getNameSei() + " " + member.getNameMei());
+			System.out.println("実行結果:" + member);
 			System.out.println();
 			
             //異常系

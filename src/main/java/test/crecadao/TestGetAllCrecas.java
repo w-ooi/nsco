@@ -25,8 +25,7 @@ public class TestGetAllCrecas {
 			
 			//結果の確認
 			for(Creca cr : crecaList) {
-				System.out.print(cr.getCrecaCompId() + ":");
-				System.out.println(cr.getCrecaCompName());
+				System.out.println(cr);
 			}
 			System.out.println("件数:" + crecaList.size());
 		}catch (SQLException e) {

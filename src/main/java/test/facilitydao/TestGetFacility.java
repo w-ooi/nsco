@@ -23,7 +23,7 @@ public class TestGetFacility {
             //正常系
         	facility = facilityDao.getFacility(0);
         	System.out.println("期待する結果:本社");
-			System.out.println("実行結果:" + facility.getFacilityName());
+			System.out.println("実行結果:" + facility);
 			System.out.println();
 			
             //異常系

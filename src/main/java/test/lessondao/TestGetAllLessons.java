@@ -26,8 +26,7 @@ public class TestGetAllLessons {
 			
 			//結果の確認 
 			for(Lesson lsn : lessonList) {
-				System.out.print(lsn.getLessonCode() + ":");
-				System.out.println(lsn.getLessonName());
+				System.out.println(lsn);
 			}
 			System.out.println("件数:" + lessonList.size());
 		}catch (SQLException e) {

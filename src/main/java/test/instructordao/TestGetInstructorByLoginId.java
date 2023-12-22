@@ -23,7 +23,7 @@ public class TestGetInstructorByLoginId {
             //正常系
         	instructor = instructorDao.getInstructorByLoginId("t-yamada", "taropass");
         	System.out.println("期待する結果:山田　太郎");
-			System.out.println("実行結果:" + instructor.getInstructorName());
+			System.out.println("実行結果:" + instructor);
 			System.out.println();
 			
             //異常系(パスワード不一致)

@@ -23,7 +23,7 @@ public class TestGetInstructor {
             //正常系
         	instructor = instructorDao.getInstructor(1);
         	System.out.println("期待する結果:山田　太郎");
-			System.out.println("実行結果:" + instructor.getInstructorName());
+			System.out.println("実行結果:" + instructor);
 			System.out.println();
 			
             //異常系

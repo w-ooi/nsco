@@ -23,7 +23,7 @@ public class TestGetReserve {
             //正常系
         	reserve = reserveDao.getReserve(1);
         	System.out.println("期待する結果:2018100010");
-			System.out.println("実行結果:" + reserve.getMember().getMemberNo());
+			System.out.println("実行結果:" + reserve);
 			System.out.println();
 			
             //異常系

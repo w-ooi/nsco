@@ -26,8 +26,7 @@ public class TestGetAllLessonInstructors {
 			
 			//結果の確認 
 			for(Instructor ist : instructorList) {
-				System.out.print(ist.getInstructorCode() + ":");
-				System.out.println(ist.getInstructorName());
+				System.out.println(ist);
 			}
 			System.out.println("件数:" + instructorList.size());
 		}catch (SQLException e) {

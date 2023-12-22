@@ -35,7 +35,7 @@ public class TestGetAfterTakeLessonReserves {
         	reserveList = reserveDao.getAfterTakeLessonReserves("2020442403");
 			
 			for(Reserve rsv : reserveList) {
-				System.out.println(rsv.getReserveCode() + " : " + rsv.getSchedule().getEventDate());
+				System.out.println(rsv);
 			}
         	System.out.println("期待する件数:30");
 			System.out.println("実行結果の件数:" + reserveList.size());
@@ -45,7 +45,7 @@ public class TestGetAfterTakeLessonReserves {
         	reserveList = reserveDao.getAfterTakeLessonReserves("1111111111");
 			
 			for(Reserve rsv : reserveList) {
-				System.out.println(rsv.getReserveCode() + " : " + rsv.getSchedule().getEventDate());
+				System.out.println(rsv);
 			}
         	System.out.println("期待する件数:0");
 			System.out.println("実行結果の件数:" + reserveList.size());

@@ -23,7 +23,7 @@ public class TestGetCreca {
             //正常系
         	creca = crecaDao.getCreca(1);
         	System.out.println("期待する結果:VISA");
-			System.out.println("実行結果:" + creca.getCrecaCompName());
+			System.out.println("実行結果:" + creca);
 			System.out.println();
 			
             //異常系

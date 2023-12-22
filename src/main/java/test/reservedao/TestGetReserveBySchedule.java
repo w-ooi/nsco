@@ -24,7 +24,7 @@ public class TestGetReserveBySchedule {
             //正常系
         	reserveList = reserveDao.getReserveBySchedule("1");
         	for(Reserve rsv : reserveList) {
-				System.out.println(rsv.getReserveCode() + " : " + rsv.getSchedule().getEventDate());
+				System.out.println(rsv);
 			}
         	System.out.println("期待する件数:9");
 			System.out.println("実行結果の件数:" + reserveList.size());

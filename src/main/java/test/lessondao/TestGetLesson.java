@@ -23,7 +23,7 @@ public class TestGetLesson {
             //正常系
         	lesson = lessonDao.getLesson(1);
         	System.out.println("期待する結果:誰でも始められる簡単エクササイズ");
-			System.out.println("実行結果:" + lesson.getLessonName());
+			System.out.println("実行結果:" + lesson);
 			System.out.println();
 			
             //異常系

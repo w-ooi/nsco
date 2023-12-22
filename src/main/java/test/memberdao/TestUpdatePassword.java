@@ -20,9 +20,7 @@ public class TestUpdatePassword {
             //DAOクラスをインスタンス化
         	MemberDAO memberDao = new MemberDAO(con);
             
-            
     		int result = 0;
-        	
         	
         	//正常系
         	result = memberDao.updatePassword("2019455595", "testpass");

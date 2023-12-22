@@ -23,7 +23,7 @@ public class TestGetLessonCategory {
             //正常系
         	lessonCategory = lessonCategoryDao.getLessonCategory(1);
         	System.out.println("期待する結果:ヨガ");
-			System.out.println("実行結果:" + lessonCategory.getLessonCategoryName());
+			System.out.println("実行結果:" + lessonCategory);
 			System.out.println();
 			
             //異常系

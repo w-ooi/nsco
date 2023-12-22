@@ -26,8 +26,7 @@ public class TestGetAllLessonCategories {
 			
 			//結果の確認 
 			for(LessonCategory lc : lessonCategoryList) {
-				System.out.print(lc.getLessonCategoryCode() + ":");
-				System.out.println(lc.getLessonCategoryName());
+				System.out.println(lc);
 			}
 			System.out.println("件数:" + lessonCategoryList.size());
 		}catch (SQLException e) {
