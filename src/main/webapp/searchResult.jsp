@@ -124,8 +124,10 @@
 		if(member != null && reserveList != null){
 			for(Reserve reserve : reserveList){
 				if(schedule.getScheduleCode() == reserve.getSchedule().getScheduleCode()){
-					reserveFlag = true;
-					break;
+					if(reserve.getCancelFlag() == 0){
+						reserveFlag = true;
+						break;
+					}
 				}
 			}
 		}
