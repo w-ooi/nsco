@@ -35,6 +35,7 @@ public class ConfirmCancelReserveAction implements IAction {
     		if(result == 1) {
     			Member member = (Member)session.getAttribute("member");
     			List<Reserve> reserveList = reserveDao.getBeforeTakeLessonReserves(member.getMemberNo());
+    			session.setAttribute("reserveList", reserveList);
     			session.setAttribute("beforeTakeLesson", reserveList);
 				session.setAttribute("cancelMessage", "レッスンをキャンセルしました");
     		}else {
